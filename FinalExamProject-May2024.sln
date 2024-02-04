@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathPreparationApp.Web", "MathPreparationApp\MathPreparationApp.Web.csproj", "{ACDFB787-B329-418F-A4E5-4F908651FD9F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{8B163DF0-D87C-4FF3-B021-AE4741ECE717}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{D9567BCE-7578-49A8-8C33-C8A35D9DD99D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathPreparationApp.Common", "MathPreparationApp.Common\MathPreparationApp.Common.csproj", "{987CCD18-CE56-48AE-B482-33D90818E0A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPreparationApp.Data", "MathPreparationApp.Data\MathPreparationApp.Data.csproj", "{50159C1F-D08E-4A47-9011-AA5B5B396A6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPreparationApp.Data.Models", "MathPreparationApp.Data.Models\MathPreparationApp.Data.Models.csproj", "{5B41D465-04F5-4480-B5A7-A433B151DBDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPreparationApp.Web.ViewModels", "MathPreparationApp.ViewModels\MathPreparationApp.Web.ViewModels.csproj", "{F2232FB0-21B3-4B5A-AF88-95403AD27438}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACDFB787-B329-418F-A4E5-4F908651FD9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACDFB787-B329-418F-A4E5-4F908651FD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACDFB787-B329-418F-A4E5-4F908651FD9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACDFB787-B329-418F-A4E5-4F908651FD9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{987CCD18-CE56-48AE-B482-33D90818E0A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{987CCD18-CE56-48AE-B482-33D90818E0A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{987CCD18-CE56-48AE-B482-33D90818E0A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{987CCD18-CE56-48AE-B482-33D90818E0A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50159C1F-D08E-4A47-9011-AA5B5B396A6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50159C1F-D08E-4A47-9011-AA5B5B396A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50159C1F-D08E-4A47-9011-AA5B5B396A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50159C1F-D08E-4A47-9011-AA5B5B396A6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B41D465-04F5-4480-B5A7-A433B151DBDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B41D465-04F5-4480-B5A7-A433B151DBDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B41D465-04F5-4480-B5A7-A433B151DBDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B41D465-04F5-4480-B5A7-A433B151DBDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2232FB0-21B3-4B5A-AF88-95403AD27438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2232FB0-21B3-4B5A-AF88-95403AD27438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2232FB0-21B3-4B5A-AF88-95403AD27438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2232FB0-21B3-4B5A-AF88-95403AD27438}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ACDFB787-B329-418F-A4E5-4F908651FD9F} = {8B163DF0-D87C-4FF3-B021-AE4741ECE717}
+		{50159C1F-D08E-4A47-9011-AA5B5B396A6E} = {D9567BCE-7578-49A8-8C33-C8A35D9DD99D}
+		{5B41D465-04F5-4480-B5A7-A433B151DBDF} = {D9567BCE-7578-49A8-8C33-C8A35D9DD99D}
+		{F2232FB0-21B3-4B5A-AF88-95403AD27438} = {8B163DF0-D87C-4FF3-B021-AE4741ECE717}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C8BC081F-9C73-47F3-920D-B5F49A710A80}
+	EndGlobalSection
+EndGlobal

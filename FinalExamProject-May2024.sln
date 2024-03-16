@@ -11,11 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{D9567BCE-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathPreparationApp.Common", "MathPreparationApp.Common\MathPreparationApp.Common.csproj", "{987CCD18-CE56-48AE-B482-33D90818E0A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPreparationApp.Data", "MathPreparationApp.Data\MathPreparationApp.Data.csproj", "{50159C1F-D08E-4A47-9011-AA5B5B396A6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathPreparationApp.Data", "MathPreparationApp.Data\MathPreparationApp.Data.csproj", "{50159C1F-D08E-4A47-9011-AA5B5B396A6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPreparationApp.Data.Models", "MathPreparationApp.Data.Models\MathPreparationApp.Data.Models.csproj", "{5B41D465-04F5-4480-B5A7-A433B151DBDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathPreparationApp.Data.Models", "MathPreparationApp.Data.Models\MathPreparationApp.Data.Models.csproj", "{5B41D465-04F5-4480-B5A7-A433B151DBDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPreparationApp.Web.ViewModels", "MathPreparationApp.ViewModels\MathPreparationApp.Web.ViewModels.csproj", "{F2232FB0-21B3-4B5A-AF88-95403AD27438}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathPreparationApp.Web.ViewModels", "MathPreparationApp.ViewModels\MathPreparationApp.Web.ViewModels.csproj", "{F2232FB0-21B3-4B5A-AF88-95403AD27438}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPreparationApp.Web.Infrastructure", "MathPreparationApp.Web.Infrastructure\MathPreparationApp.Web.Infrastructure.csproj", "{7F2EA88B-7CD9-445B-B1D9-661524880832}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{F2232FB0-21B3-4B5A-AF88-95403AD27438}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2232FB0-21B3-4B5A-AF88-95403AD27438}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2232FB0-21B3-4B5A-AF88-95403AD27438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F2EA88B-7CD9-445B-B1D9-661524880832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2EA88B-7CD9-445B-B1D9-661524880832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2EA88B-7CD9-445B-B1D9-661524880832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2EA88B-7CD9-445B-B1D9-661524880832}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +58,7 @@ Global
 		{50159C1F-D08E-4A47-9011-AA5B5B396A6E} = {D9567BCE-7578-49A8-8C33-C8A35D9DD99D}
 		{5B41D465-04F5-4480-B5A7-A433B151DBDF} = {D9567BCE-7578-49A8-8C33-C8A35D9DD99D}
 		{F2232FB0-21B3-4B5A-AF88-95403AD27438} = {8B163DF0-D87C-4FF3-B021-AE4741ECE717}
+		{7F2EA88B-7CD9-445B-B1D9-661524880832} = {8B163DF0-D87C-4FF3-B021-AE4741ECE717}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8BC081F-9C73-47F3-920D-B5F49A710A80}

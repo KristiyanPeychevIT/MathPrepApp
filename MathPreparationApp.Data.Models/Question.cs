@@ -1,7 +1,9 @@
 ﻿namespace MathPreparationApp.Data.Models
 {
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.ComponentModel.DataAnnotations;
+    using static MathPreparationApp.Common.EntityValidationConstants.Question;
+    using static Web.Infrastructure.Extensions.ValidationAttributeExtensions;
+
     public class Question
     {
         public Question()
@@ -15,23 +17,34 @@
         public Guid Id { get; set; }
 
         [Required]
+        [MaxLength(NameMaxLength), MinLength(NameMinLength)]
+        public string Name { get; set; } = null!;
+
+        [Required]
+        [MaxLength(OptionMaxLength)]
         public string Option1 { get; set; } = null!;
 
         [Required]
+        [MaxLength(OptionMaxLength)]
         public string Option2 { get; set; } = null!;
 
         [Required]
+        [MaxLength(OptionMaxLength)]
         public string Option3 { get; set; } = null!;
 
         [Required]
+        [MaxLength(OptionMaxLength)]
         public string Option4 { get; set; } = null!;
 
         [Required]
+        [MaxLength(OptionMaxLength)]
         public string CorrectOption { get; set; } = null!;
 
+        [ImageMaxSize]
         public byte[]? ImageBytes { get; set; }
 
         [Required]
+        [MaxLength(SolutionMaxLength), MinLength(SolutionMinLength)]
         public string Solution { get; set;  } = null!;
 
         public int SubjectId { get; set; }

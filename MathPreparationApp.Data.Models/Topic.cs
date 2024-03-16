@@ -1,7 +1,7 @@
 ﻿namespace MathPreparationApp.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using static MathPreparationApp.Common.EntityValidationConstants.Topic;
 
     public class Topic
     {
@@ -14,6 +14,7 @@
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(NameMaxLength), MinLength(NameMinLength)]
         public string Name { get; set; } = null!;
 
         public int SubjectId { get; set; }

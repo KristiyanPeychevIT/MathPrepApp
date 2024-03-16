@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 using MathPreparationApp.Data;
 using MathPreparationApp.Data.Models;
+using static MathPreparationApp.Common.EntityValidationConstants.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,11 @@ builder.Services.AddDbContext<MathPreparationAppDbContext>(options =>
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {   
-    options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = PasswordMinLength;
 })
 .AddEntityFrameworkStores<MathPreparationAppDbContext>();
 

@@ -6,7 +6,7 @@
     public class UserAnsweredQuestion
     {
         public Guid UserId { get; set; }
-        public int QuestionId { get; set; }
+        public Guid QuestionId { get; set; }
 
         public ApplicationUser User { get; set; } = null!;
         public Question Question { get; set; } = null!;

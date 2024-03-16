@@ -19,4 +19,8 @@
     <ProjectReference Include="..\MathPreparationApp.Data.Models\MathPreparationApp.Data.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

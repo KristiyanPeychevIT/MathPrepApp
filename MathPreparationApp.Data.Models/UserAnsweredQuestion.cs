@@ -1,12 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MathPreparationApp.Data.Models
+﻿namespace MathPreparationApp.Data.Models
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using System.ComponentModel.DataAnnotations;
 
     public class UserAnsweredQuestion
     {

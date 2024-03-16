@@ -7,7 +7,8 @@
         public Question()
         {
             this.Id = new Guid();
-            this.UsersAnswered = new HashSet<UserAnsweredQuestion>();
+            this.UsersAnswered = new HashSet<ApplicationUser>();
+            this.UserAnsweredQuestions = new HashSet<UserAnsweredQuestion>();
         }
 
         [Key]
@@ -45,6 +46,8 @@
 
         public DateTime UpdatedOn { get; set; }
 
-        public ICollection<UserAnsweredQuestion> UsersAnswered { get; set; }
+        public virtual ICollection<ApplicationUser> UsersAnswered { get; set; }
+
+        public virtual ICollection<UserAnsweredQuestion> UserAnsweredQuestions { get; set; }
     }
 }

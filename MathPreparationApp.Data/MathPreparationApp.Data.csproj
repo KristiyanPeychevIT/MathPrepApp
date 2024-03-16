@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MathPreparationApp.Data.Models\MathPreparationApp.Data.Models.csproj" />
+  </ItemGroup>
+
 </Project>

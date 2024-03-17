@@ -1,12 +1,36 @@
 ﻿namespace MathPreparationApp.Data.Configurations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    internal class SubjectEntityConfiguration
+    using Models;
+    public class SubjectEntityConfiguration : IEntityTypeConfiguration<Subject>
     {
+        public void Configure(EntityTypeBuilder<Subject> builder)
+        {
+            builder.HasData(this.GenerateSubjects());
+        }
+        private Subject[] GenerateSubjects()
+        {
+            ICollection<Subject> subjects = new HashSet<Subject>();
+
+            Subject subject;
+
+            subject = new Subject
+            {
+                Id = 1,
+                Name = "Начален преговор от 6. клас"
+            };
+            subjects.Add(subject);
+
+            subject = new Subject
+            {
+                Id = 2,
+                Name = "Цели изрази"
+            };
+            subjects.Add(subject);
+
+            return subjects.ToArray();
+        }
     }
 }

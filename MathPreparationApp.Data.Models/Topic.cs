@@ -20,7 +20,7 @@
         public int SubjectId { get; set; }
         public Subject Subject { get; set; } = null!;
 
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Question>? Questions { get; set; }
 
     }
 }

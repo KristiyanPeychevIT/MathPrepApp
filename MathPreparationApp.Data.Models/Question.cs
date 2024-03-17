@@ -8,7 +8,7 @@
     {
         public Question()
         {
-            this.Id = new Guid();
+            this.Id = Guid.NewGuid();
             this.UsersAnswered = new HashSet<ApplicationUser>();
             this.UserAnsweredQuestions = new HashSet<UserAnsweredQuestion>();
         }
@@ -59,8 +59,8 @@
 
         public DateTime UpdatedOn { get; set; }
 
-        public virtual ICollection<ApplicationUser> UsersAnswered { get; set; }
+        public virtual ICollection<ApplicationUser>? UsersAnswered { get; set; }
 
-        public virtual ICollection<UserAnsweredQuestion> UserAnsweredQuestions { get; set; }
+        public virtual ICollection<UserAnsweredQuestion>? UserAnsweredQuestions { get; set; }
     }
 }

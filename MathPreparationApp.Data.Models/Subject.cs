@@ -18,7 +18,7 @@
         [MaxLength(NameMaxLength), MinLength(NameMinLength)]
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<Topic> Topics { get; set; }
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Topic>? Topics { get; set; }
+        public virtual ICollection<Question>? Questions { get; set; }
     }
 }

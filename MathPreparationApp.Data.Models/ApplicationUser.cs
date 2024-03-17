@@ -6,6 +6,7 @@
     {
         public ApplicationUser()
         {
+            this.Id = Guid.NewGuid();
             this.AnsweredQuestions = new HashSet<Question>();
             this.UserAnsweredQuestions = new HashSet<UserAnsweredQuestion>();
         }

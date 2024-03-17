@@ -24,6 +24,51 @@
                 .HasMany(q => q.UsersAnswered)
                 .WithMany(u => u.AnsweredQuestions)
                 .UsingEntity<UserAnsweredQuestion>();
+
+            builder.HasData(this.GenerateQuestions());
+        }
+
+        private Question[] GenerateQuestions()
+        {
+            ICollection<Question> questions = new HashSet<Question>();
+
+            Question question;
+
+            question = new Question
+            {
+                Name = "Пресметнете стойността на израза: 4.(-8)",
+                Option1 = "32",
+                Option2 = "-32",
+                Option3 = "-12",
+                Option4 = "12",
+                CorrectOption = "-32",
+                ImageBytes = null,
+                Solution = "Положително число, умножено с отрицателно, е равно на отрицателното им произведение.",
+                SubjectId = 1,
+                TopicId = 2,
+                AddedOn = DateTime.Now,
+                UpdatedOn = DateTime.Now
+            };
+            questions.Add(question);
+
+            question = new Question
+            {
+                Name = "Запишете в нормален вид едночлена: 5xxyy\u00b2z",
+                Option1 = "5xyy",
+                Option2 = "5x\u00b3yz",
+                Option3 = "5xy³z",
+                Option4 = "5x²y³z",
+                CorrectOption = "5x²y³z",
+                ImageBytes = null,
+                Solution = "x по x = x², y по у\u00b2 = y\u00b3",
+                SubjectId = 2,
+                TopicId = 2,
+                AddedOn = DateTime.Now,
+                UpdatedOn = DateTime.Now
+            };
+            questions.Add(question);
+
+            return questions.ToArray();
         }
     }
 }

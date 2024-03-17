@@ -2,7 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 using MathPreparationApp.Data;
 using MathPreparationApp.Data.Models;
+using MathPreparationApp.Web.Infrastructure.Extensions;
 using static MathPreparationApp.Common.EntityValidationConstants.User;
+using MathPreparationApp.Services.Data.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequiredLength = PasswordMinLength;
 })
 .AddEntityFrameworkStores<MathPreparationAppDbContext>();
+
+builder.Services.AddApplicationServices(typeof(IQuestionService));
 
 builder.Services.AddControllersWithViews();
 

@@ -1,12 +1,9 @@
 ﻿namespace MathPreparationApp.Services.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using MathPreparationApp.Services.Data.Interfaces;
 
-    internal class QuestionService
+    public class QuestionService : IQuestionService
     {
+
     }
 }

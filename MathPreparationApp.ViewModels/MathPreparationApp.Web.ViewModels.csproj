@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MathPreparationApp.Common\MathPreparationApp.Common.csproj" />
+    <ProjectReference Include="..\MathPreparationApp.Data.Models\MathPreparationApp.Data.Models.csproj" />
+  </ItemGroup>
+
 </Project>

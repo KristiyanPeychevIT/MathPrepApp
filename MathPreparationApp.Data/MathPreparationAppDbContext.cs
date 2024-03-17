@@ -1,4 +1,6 @@
-﻿namespace MathPreparationApp.Data
+﻿using System.Reflection;
+
+namespace MathPreparationApp.Data
 {
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -21,30 +23,12 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            Assembly configAssembly = Assembly.GetAssembly(typeof(MathPreparationAppDbContext)) ??
+                                      Assembly.GetExecutingAssembly();
+
+            builder.ApplyConfigurationsFromAssembly(configAssembly);
+
             base.OnModelCreating(builder);
-
-            builder.Entity<Question>()
-                .HasOne(q => q.Subject)
-                .WithMany(s => s.Questions)
-                .HasForeignKey(q => q.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Question>()
-                .HasOne(q => q.Topic)
-                .WithMany(t => t.Questions)
-                .HasForeignKey(q => q.TopicId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Topic>()
-                .HasOne(t => t.Subject)
-                .WithMany(s => s.Topics)
-                .HasForeignKey(t => t.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Question>()
-                .HasMany(q => q.UsersAnswered)
-                .WithMany(u => u.AnsweredQuestions)
-                .UsingEntity<UserAnsweredQuestion>();
         }
     }
 }

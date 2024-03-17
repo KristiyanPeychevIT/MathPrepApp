@@ -40,6 +40,9 @@
         [MaxLength(OptionMaxLength)]
         public string CorrectOption { get; set; } = null!;
 
+        [Required]
+        public int Points { get; set; }
+
         [ImageMaxSize]
         public byte[]? ImageBytes { get; set; }
 

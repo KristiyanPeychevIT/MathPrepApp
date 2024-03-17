@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
+    <ProjectReference Include="..\MathPreparationApp.Common\MathPreparationApp.Common.csproj" />
+    <ProjectReference Include="..\MathPreparationApp.Data.Models\MathPreparationApp.Data.Models.csproj" />
+    <ProjectReference Include="..\MathPreparationApp.Data\MathPreparationApp.Data.csproj" />
+    <ProjectReference Include="..\MathPreparationApp.ViewModels\MathPreparationApp.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

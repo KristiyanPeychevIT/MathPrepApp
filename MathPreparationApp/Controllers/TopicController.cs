@@ -6,9 +6,9 @@
     [Authorize]
     public class TopicController : Controller
     {
-        public Task<IActionResult> Add()
+        public IActionResult Add()
         {
-            
+            return this.Ok();
         }
     }
 }

@@ -8,7 +8,7 @@
     {
         public IActionResult Add()
         {
-            
+            return this.Ok();
         }
     }
 }

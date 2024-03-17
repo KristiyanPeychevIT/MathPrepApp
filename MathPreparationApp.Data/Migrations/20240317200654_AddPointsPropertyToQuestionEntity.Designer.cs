@@ -4,6 +4,7 @@ using MathPreparationApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MathPreparationApp.Data.Migrations
 {
     [DbContext(typeof(MathPreparationAppDbContext))]
-    partial class MathPreparationAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240317200654_AddPointsPropertyToQuestionEntity")]
+    partial class AddPointsPropertyToQuestionEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

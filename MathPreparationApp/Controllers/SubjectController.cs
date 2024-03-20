@@ -1,4 +1,6 @@
-﻿namespace MathPreparationApp.Web.Controllers
+﻿using MathPreparationApp.Data.Models;
+
+namespace MathPreparationApp.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -6,6 +8,7 @@
     using MathPreparationApp.Services.Data.Interfaces;
     using ViewModels.Subject;
     using MathPreparationApp.Services.Data;
+    using MathPreparationApp.Web.Infrastructure.Extensions;
 
     [Authorize]
     public class SubjectController : Controller
@@ -47,7 +50,7 @@
 
             try
             {
-                await this.subjectService.AddSubject(model);
+                await this.subjectService.AddAsync(model);
             }
             catch (Exception)
             {
@@ -55,6 +58,37 @@
             }
 
             return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            Subject subject = await this.subjectService.GetSubjectByIdAsync(id);
+
+            if (subject == null)
+            {
+                return BadRequest();
+            }
+
+            SubjectFormModel model = new SubjectFormModel()
+            {
+                Name = subject.Name
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, SubjectFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            await subjectService.EditAsync(id, model);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

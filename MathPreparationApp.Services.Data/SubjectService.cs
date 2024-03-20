@@ -27,7 +27,7 @@ namespace MathPreparationApp.Services.Data
             return await dbContext.Subjects.AnyAsync(s => s.Name == name);
         }
 
-        public async Task AddSubject(SubjectFormModel model)
+        public async Task AddAsync(SubjectFormModel model)
         {
             Subject newSubject = new Subject
             {
@@ -36,6 +36,25 @@ namespace MathPreparationApp.Services.Data
             };
 
             await this.dbContext.Subjects.AddAsync(newSubject);
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Subject> GetSubjectByIdAsync(int id)
+        {
+            Subject subject = await this.dbContext
+                .Subjects.FirstAsync(s => s.Id == id);
+
+            return subject;
+        }
+
+        public async Task EditAsync(int id, SubjectFormModel editedViewModel)
+        {
+            Subject subjectToEdit = await this.dbContext
+                .Subjects
+                .FirstAsync(s => s.Id == id);
+
+            subjectToEdit.Name = editedViewModel.Name;
+
             await this.dbContext.SaveChangesAsync();
         }
     }

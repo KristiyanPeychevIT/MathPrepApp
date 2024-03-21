@@ -86,7 +86,14 @@ namespace MathPreparationApp.Web.Controllers
                 return this.View(model);
             }
 
-            await subjectService.EditAsync(id, model);
+            try
+            {
+                await subjectService.EditAsync(id, model);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unexpected error occured while editing a subject!");
+            }
 
             return RedirectToAction("Index", "Home");
         }
@@ -113,7 +120,14 @@ namespace MathPreparationApp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(SubjectViewModel model)
         {
-            await subjectService.DeleteAsync(model);
+            try
+            {
+                await subjectService.DeleteAsync(model);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unexpected error occured while deleting a subject!");
+            }
 
             return RedirectToAction("Index", "Home");
         }

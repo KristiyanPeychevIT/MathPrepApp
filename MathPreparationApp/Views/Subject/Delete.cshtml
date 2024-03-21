@@ -1,0 +1,31 @@
+﻿@model SubjectViewModel
+
+@{
+    ViewData["Title"] = "Delete Subject";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+
+<form asp-action="Delete">
+    <div class="d-flex justify-content-center">
+        <div class="card " style="width: 50rem;">
+            <div class="card-body">
+                <p class="card-text text-center">
+                    <span class="fw-bold">
+                        Subject Id:
+                    </span>@Model.Id
+                </p>
+                <p class="card-text text-center">
+                    <span class="fw-bold">
+                        Subject Name:
+                    </span>@Model.Name
+                </p>
+            </div>
+            <div class="mb-3 d-flex justify-content-center">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+</form>

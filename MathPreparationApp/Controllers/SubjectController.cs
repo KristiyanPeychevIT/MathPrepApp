@@ -90,5 +90,32 @@ namespace MathPreparationApp.Web.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var subject = await this.subjectService.GetSubjectByIdAsync(id);
+
+            if (subject == null)
+            {
+                return BadRequest();
+            }
+
+            SubjectViewModel model = new SubjectViewModel()
+            {
+                Id = subject.Id,
+                Name = subject.Name,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(SubjectViewModel model)
+        {
+            await subjectService.DeleteAsync(model);
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

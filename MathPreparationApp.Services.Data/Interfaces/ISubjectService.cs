@@ -13,5 +13,7 @@
         Task<Subject> GetSubjectByIdAsync(int id);
 
         Task EditAsync(int id, SubjectFormModel viewModel);
+
+        Task DeleteAsync(SubjectViewModel viewModel);
     }
 }

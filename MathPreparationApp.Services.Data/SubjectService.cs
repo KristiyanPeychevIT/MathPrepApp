@@ -57,5 +57,16 @@ namespace MathPreparationApp.Services.Data
 
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(SubjectViewModel viewModel)
+        {
+            Subject subjectToDelete = await this.dbContext
+                .Subjects
+                .FirstAsync(s => s.Id == viewModel.Id);
+
+            this.dbContext.Subjects.Remove(subjectToDelete);
+
+            await this.dbContext.SaveChangesAsync();
+        }
     }
 }

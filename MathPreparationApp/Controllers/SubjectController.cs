@@ -1,14 +1,11 @@
-﻿using MathPreparationApp.Data.Models;
-
-namespace MathPreparationApp.Web.Controllers
+﻿namespace MathPreparationApp.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using Data.Models;
     using MathPreparationApp.Services.Data.Interfaces;
     using ViewModels.Subject;
-    using MathPreparationApp.Services.Data;
-    using MathPreparationApp.Web.Infrastructure.Extensions;
 
     [Authorize]
     public class SubjectController : Controller

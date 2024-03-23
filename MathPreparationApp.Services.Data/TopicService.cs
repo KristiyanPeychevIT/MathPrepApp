@@ -38,5 +38,36 @@ namespace MathPreparationApp.Services.Data
             await this.dbContext.Topics.AddAsync(topic);
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async Task EditAsync(int id, TopicFormModel editedFormModel)
+        {
+            Topic topicToEdit = await this.dbContext
+                .Topics
+                .FirstAsync(t => t.Id == id);
+
+            topicToEdit.Name = editedFormModel.Name;
+            topicToEdit.SubjectId = editedFormModel.SubjectId;
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(TopicViewModel viewModel)
+        {
+            Topic topicToDelete = await this.dbContext
+                .Topics
+                .FirstAsync(t => t.Id == viewModel.Id);
+
+            this.dbContext.Topics.Remove(topicToDelete);
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Topic> GetTopicByIdAsync(int id)
+        {
+            Topic topic = await this.dbContext
+                .Topics.FirstAsync(t => t.Id == id);
+
+            return topic;
+        }
     }
 }

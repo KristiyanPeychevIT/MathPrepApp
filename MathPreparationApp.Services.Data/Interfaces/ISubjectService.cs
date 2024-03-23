@@ -17,5 +17,7 @@
         Task DeleteAsync(SubjectViewModel viewModel);
 
         Task<IEnumerable<SubjectViewModel>> AllSubjectsAsync();
+
+        Task<string> GetSubjectNameByIdAsync(int id);
     }
 }

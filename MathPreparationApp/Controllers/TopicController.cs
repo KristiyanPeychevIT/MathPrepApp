@@ -1,10 +1,15 @@
-﻿namespace MathPreparationApp.Web.Controllers
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace MathPreparationApp.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using MathPreparationApp.Services.Data.Interfaces;
     using ViewModels.Topic;
+    using ViewModels.Subject;
+    using Data.Models;
+    using Topic = Data.Models.Topic;
 
     [Authorize]
     public class TopicController : Controller
@@ -61,6 +66,94 @@
             }
 
             return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            Topic topic = await this.topicService.GetTopicByIdAsync(id);
+
+            if (topic == null)
+            {
+                return BadRequest();
+            }
+
+            TopicFormModel model = new TopicFormModel()
+            {
+                Name = topic.Name,
+                SubjectId = topic.SubjectId,
+                Subjects = await this.subjectService.AllSubjectsAsync()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, TopicFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Subjects = await this.subjectService.AllSubjectsAsync();
+                return this.View(model);
+            }
+
+            try
+            {
+                await this.topicService.EditAsync(id, model);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unexpected error occured while editing a topic!");
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Topic topic = await this.topicService.GetTopicByIdAsync(id);
+
+            if (topic == null)
+            {
+                return BadRequest();
+            }
+
+            string subjectName;
+
+            try
+            {
+                subjectName = await this.subjectService.GetSubjectNameByIdAsync(topic.SubjectId);
+            }
+            catch (Exception)
+            {
+                this.ModelState.AddModelError(string.Empty, "Unexpected error occured while retrieving subject name for current topic!");
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            TopicViewModel model = new TopicViewModel()
+            {
+                Id = topic.Id,
+                Name = topic.Name,
+                SubjectName = subjectName
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(TopicViewModel model)
+        {
+            try
+            {
+                await this.topicService.DeleteAsync(model);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unexpected error occured while deleting a topic!");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

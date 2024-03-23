@@ -1,6 +1,4 @@
-﻿using MathPreparationApp.Data.Models;
-
-namespace MathPreparationApp.Services.Data
+﻿namespace MathPreparationApp.Services.Data
 {
     using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +6,8 @@ namespace MathPreparationApp.Services.Data
     using Web.ViewModels.Subject;
     using MathPreparationApp.Data;
     using System.Collections.Generic;
+
+    using MathPreparationApp.Data.Models;
 
     public class SubjectService : ISubjectService
     {
@@ -82,6 +82,13 @@ namespace MathPreparationApp.Services.Data
                 }).ToArrayAsync();
 
             return allSubjects;
+        }
+
+        public async Task<string> GetSubjectNameByIdAsync(int id)
+        {
+            Subject subject = await this.GetSubjectByIdAsync(id);
+
+            return subject.Name;
         }
     }
 }

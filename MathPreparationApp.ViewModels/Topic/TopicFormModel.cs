@@ -2,20 +2,25 @@
 {
     using static Common.EntityValidationConstants.Topic;
     using System.ComponentModel.DataAnnotations;
+    using Subject;
 
     public class TopicFormModel
     {
+        public TopicFormModel()
+        {
+            this.Subjects = new HashSet<SubjectViewModel>();
+        }
         [Required]
         public int Id { get; set; }
 
         [Required]
         [MaxLength(NameMaxLength), MinLength(NameMinLength)]
+        [Display(Name = "Topic Name")]
         public string Name { get; set; } = null!;
 
+        [Display(Name = "Subject")]
         public int SubjectId { get; set; }
-        
-        //Needs to be finished
-        //Collection should be of type SubjectViewModel - displaying all the added subjects
-        //public virtual ICollection<Question>? Questions { get; set; }
+
+        public IEnumerable<SubjectViewModel> Subjects { get; set; }
     }
 }

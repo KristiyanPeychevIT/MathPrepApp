@@ -15,5 +15,7 @@
         Task EditAsync(int id, SubjectFormModel viewModel);
 
         Task DeleteAsync(SubjectViewModel viewModel);
+
+        Task<IEnumerable<SubjectViewModel>> AllSubjectsAsync();
     }
 }

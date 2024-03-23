@@ -7,6 +7,7 @@ namespace MathPreparationApp.Services.Data
     using Interfaces;
     using Web.ViewModels.Subject;
     using MathPreparationApp.Data;
+    using System.Collections.Generic;
 
     public class SubjectService : ISubjectService
     {
@@ -67,6 +68,20 @@ namespace MathPreparationApp.Services.Data
             this.dbContext.Subjects.Remove(subjectToDelete);
 
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<SubjectViewModel>> AllSubjectsAsync()
+        {
+            IEnumerable<SubjectViewModel> allSubjects = await this.dbContext
+                .Subjects
+                .AsNoTracking()
+                .Select(s => new SubjectViewModel()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                }).ToArrayAsync();
+
+            return allSubjects;
         }
     }
 }

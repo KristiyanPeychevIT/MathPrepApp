@@ -6,6 +6,6 @@
         Task<bool> TopicExistsByIdAsync(int id);
         Task<bool> TopicExistsByNameAsync(string name);
 
-        Task Create(TopicFormModel model);
+        Task CreateAsync(TopicFormModel formModel);
     }
 }

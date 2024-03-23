@@ -1,4 +1,6 @@
-﻿namespace MathPreparationApp.Services.Data
+﻿using MathPreparationApp.Data.Models;
+
+namespace MathPreparationApp.Services.Data
 {
     using Microsoft.EntityFrameworkCore;
 
@@ -24,9 +26,17 @@
             return await dbContext.Topics.AnyAsync(t => t.Name == name);
         }
 
-        public Task Create(TopicFormModel model)
+        public async Task CreateAsync(TopicFormModel formModel)
         {
-            return null;
+            Topic topic = new Topic
+            {
+                Id = formModel.Id,
+                Name = formModel.Name,
+                SubjectId = formModel.SubjectId,
+            };
+
+            await this.dbContext.Topics.AddAsync(topic);
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }

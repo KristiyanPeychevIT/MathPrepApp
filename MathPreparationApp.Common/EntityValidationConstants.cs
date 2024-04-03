@@ -9,6 +9,9 @@
 
             public const int OptionMaxLength = 100;
 
+            public const string PointsMinValue = "1";
+            public const string PointsMaxValue = "20";
+
             public const int SolutionMinLength = 5;
             public const int SolutionMaxLength = 5000;
         }

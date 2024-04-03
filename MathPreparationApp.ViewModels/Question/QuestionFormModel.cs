@@ -1,6 +1,4 @@
-﻿using System.Net.Mime;
-
-namespace MathPreparationApp.Web.ViewModels.Question
+﻿namespace MathPreparationApp.Web.ViewModels.Question
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

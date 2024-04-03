@@ -1,12 +1,14 @@
-﻿using MathPreparationApp.Data.Models;
-
-namespace MathPreparationApp.Services.Data
+﻿namespace MathPreparationApp.Services.Data
 {
     using Microsoft.EntityFrameworkCore;
 
     using MathPreparationApp.Data;
     using Interfaces;
     using Web.ViewModels.Topic;
+    using System.Collections.Generic;
+    using MathPreparationApp.Data.Models;
+    using MathPreparationApp.Web.ViewModels.Subject;
+
     public class TopicService : ITopicService
     {
         private readonly MathPreparationAppDbContext dbContext;
@@ -68,6 +70,21 @@ namespace MathPreparationApp.Services.Data
                 .Topics.FirstAsync(t => t.Id == id);
 
             return topic;
+        }
+
+        public async Task<IEnumerable<TopicViewModel>> AllTopicsBySubjectIdAsync(int subjectId)
+        {
+            IEnumerable<TopicViewModel> allTopics = await this.dbContext
+                .Topics
+                .AsNoTracking()
+                .Where(t => t.SubjectId == subjectId)
+                .Select(t => new TopicViewModel()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                }).ToArrayAsync();
+
+            return allTopics;
         }
     }
 }

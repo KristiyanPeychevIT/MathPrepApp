@@ -28,8 +28,4 @@
     <ProjectReference Include="..\MathPreparationApp.Web.Infrastructure\MathPreparationApp.Web.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Question\" />
-  </ItemGroup>
-
 </Project>

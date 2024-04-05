@@ -8,6 +8,12 @@
     {
         public void Configure(EntityTypeBuilder<Question> builder)
         {
+            builder.Property(q => q.AddedOn)
+                .HasDefaultValueSql("GETDATE()");
+            builder.Property(q => q.UpdatedOn)
+                .HasDefaultValueSql("GETDATE()");
+
+
             builder
                 .HasOne(q => q.Subject)
                 .WithMany(s => s.Questions)

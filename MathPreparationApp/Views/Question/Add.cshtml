@@ -10,10 +10,10 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="Name"></label>
-                <input asp-for="Name" class="form-control" placeholder="Name...">
+                <textarea asp-for="Name" rows="4" class="form-control" placeholder="Name..."></textarea>
                 <span asp-validation-for="Name" class="small text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,10 +47,8 @@
                 <span asp-validation-for="Points" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageBytes"></label>
-                <br/>
-                <input asp-for="ImageBytes" type="file" name="imageFile" />
-                <span asp-validation-for="ImageBytes" class="small text-danger"></span>
+                <label for="imageFile">Image:</label>
+                <input type="file" class="form-control-file" id="imageFile" name="imageFile">
             </div>
             <div class="form-group">
                 <label asp-for="Solution"></label>
@@ -59,23 +57,21 @@
             </div>
             <div class="form-group">
                 <label asp-for="SubjectId"></label>
-                <select asp-for="SubjectId" class="form-control">
+                <select asp-for="SubjectId" class="form-control" id="subjectsDropdown">
+                    <option value="">-- Select Subject --</option>
                     @foreach (var subject in Model.Subjects)
                     {
                         <option value="@subject.Id">@subject.Name</option>
                     }
                 </select>
-                <span asp-validation-for="SubjectId" class="small textdanger"></span>
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TopicId"></label>
-                <select asp-for="TopicId" class="form-control">
-                    @foreach (var topic in Model.Topics)
-                    {
-                        <option value="@topic.Id">@topic.Name</option>
-                    }
+                <select asp-for="TopicId" class="form-control" id="topicsDropdown" disabled>
+                    <option value="">-- Select Topic --</option>
                 </select>
-                <span asp-validation-for="TopicId" class="small textdanger"></span>
+                <span asp-validation-for="TopicId" class="text-danger"></span>
             </div>
             <div class="text-center">
                 <input class="btn btn-primary mt-3" type="submit" value="Save" />
@@ -84,7 +80,31 @@
     </div>
 </div>
 
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById("subjectsDropdown").addEventListener("change", function () {
+            var subjectId = this.value;
+            var topicsDropdown = document.getElementById("topicsDropdown");
+
+            // Make AJAX request to fetch topics
+            fetch(`../../../Question/OnGetTopics?subjectId=${subjectId}`)
+                .then(response => response.json())
+                .then(topics => {
+                    // Clear existing options
+                    topicsDropdown.innerHTML = "";
+
+                    // Populate topics dropdown
+                    topics.forEach(topic => {
+                        var option = document.createElement("option");
+                        option.text = topic.name;
+                        option.value = topic.id;
+                        topicsDropdown.appendChild(option);
+                    });
+
+                    // Enable topics dropdown
+                    topicsDropdown.disabled = false;
+                });
+        });
+    </script>
 }

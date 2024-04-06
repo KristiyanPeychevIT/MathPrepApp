@@ -83,6 +83,13 @@
         }
 
         [HttpGet]
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
         public async Task<IActionResult> OnGetTopics(int subjectId)
         {
             IEnumerable<TopicViewModel> topics = await this.topicService.AllTopicsBySubjectIdAsync(subjectId);

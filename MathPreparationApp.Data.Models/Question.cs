@@ -50,6 +50,8 @@
         [MaxLength(SolutionMaxLength), MinLength(SolutionMinLength)]
         public string Solution { get; set;  } = null!;
 
+        public bool IsActive { get; set; }
+
         public int SubjectId { get; set; }
 
         public virtual Subject Subject { get; set; } = null!;

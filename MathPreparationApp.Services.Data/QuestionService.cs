@@ -5,6 +5,7 @@ namespace MathPreparationApp.Services.Data
 {
     using MathPreparationApp.Services.Data.Interfaces;
     using MathPreparationApp.Web.ViewModels.Question;
+    using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
 
     public class QuestionService : IQuestionService
@@ -35,6 +36,38 @@ namespace MathPreparationApp.Services.Data
 
             await this.dbContext.Questions.AddAsync(question);
             await this.dbContext.SaveChangesAsync();
+        }
+        public async Task<bool> QuestionExistsByIdAsync(string questionId)
+        {
+            return await dbContext
+                .Questions
+                .Where(q => q.IsActive)
+                .AnyAsync(q => q.Id.ToString() == questionId);
+        }
+
+        public async Task<QuestionFormModel> GetQuestionByIdAsync(string questionId)
+        {
+            Question question = await this.dbContext
+                .Questions
+                .Include(q => q.Subject)
+                .Include(q => q.Topic)
+                .Where(q => q.IsActive)
+                .FirstAsync(q => q.Id.ToString() == questionId);
+
+            return new QuestionFormModel
+            {
+                Name = question.Name,
+                Option1 = question.Option1,
+                Option2 = question.Option2,
+                Option3 = question.Option3,
+                Option4 = question.Option4,
+                CorrectOption = question.CorrectOption,
+                Points = question.Points,
+                ImageBytes = question.ImageBytes,
+                Solution = question.Solution,
+                SubjectId = question.SubjectId,
+                TopicId = question.TopicId,
+            };
         }
     }
 }

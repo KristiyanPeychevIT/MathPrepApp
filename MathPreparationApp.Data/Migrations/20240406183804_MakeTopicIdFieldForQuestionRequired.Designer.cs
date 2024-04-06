@@ -4,6 +4,7 @@ using MathPreparationApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MathPreparationApp.Data.Migrations
 {
     [DbContext(typeof(MathPreparationAppDbContext))]
-    partial class MathPreparationAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240406183804_MakeTopicIdFieldForQuestionRequired")]
+    partial class MakeTopicIdFieldForQuestionRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,8 +169,8 @@ namespace MathPreparationApp.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ffa4a057-d5a6-4cec-938d-df833e3612a2"),
-                            AddedOn = new DateTime(2024, 4, 6, 21, 52, 24, 194, DateTimeKind.Local).AddTicks(6130),
+                            Id = new Guid("63fa347b-5afc-414d-9144-17beb8909730"),
+                            AddedOn = new DateTime(2024, 4, 6, 21, 38, 4, 115, DateTimeKind.Local).AddTicks(9339),
                             CorrectOption = "-32",
                             IsActive = false,
                             Name = "Пресметнете стойността на израза: 4.(-8)",
@@ -180,12 +182,12 @@ namespace MathPreparationApp.Data.Migrations
                             Solution = "Положително число, умножено с отрицателно, е равно на отрицателното им произведение.",
                             SubjectId = 1,
                             TopicId = 2,
-                            UpdatedOn = new DateTime(2024, 4, 6, 21, 52, 24, 194, DateTimeKind.Local).AddTicks(6167)
+                            UpdatedOn = new DateTime(2024, 4, 6, 21, 38, 4, 115, DateTimeKind.Local).AddTicks(9378)
                         },
                         new
                         {
-                            Id = new Guid("dd5444fa-15d7-424b-9d2a-a6dfde179058"),
-                            AddedOn = new DateTime(2024, 4, 6, 21, 52, 24, 194, DateTimeKind.Local).AddTicks(6183),
+                            Id = new Guid("7641983c-24bd-4764-bb5a-2c7bbb62ed45"),
+                            AddedOn = new DateTime(2024, 4, 6, 21, 38, 4, 115, DateTimeKind.Local).AddTicks(9401),
                             CorrectOption = "5x²y³z",
                             IsActive = false,
                             Name = "Запишете в нормален вид едночлена: 5xxyy²z",
@@ -197,7 +199,7 @@ namespace MathPreparationApp.Data.Migrations
                             Solution = "x по x = x², y по у² = y³",
                             SubjectId = 2,
                             TopicId = 2,
-                            UpdatedOn = new DateTime(2024, 4, 6, 21, 52, 24, 194, DateTimeKind.Local).AddTicks(6184)
+                            UpdatedOn = new DateTime(2024, 4, 6, 21, 38, 4, 115, DateTimeKind.Local).AddTicks(9403)
                         });
                 });
 

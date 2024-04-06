@@ -1,12 +1,13 @@
-﻿using MathPreparationApp.Data;
-using MathPreparationApp.Data.Models;
-
-namespace MathPreparationApp.Services.Data
+﻿namespace MathPreparationApp.Services.Data
 {
-    using MathPreparationApp.Services.Data.Interfaces;
-    using MathPreparationApp.Web.ViewModels.Question;
-    using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
+
+    using MathPreparationApp.Data;
+    using MathPreparationApp.Data.Models;
+    using Interfaces;
+    using Web.ViewModels.Question;
 
     public class QuestionService : IQuestionService
     {
@@ -66,7 +67,7 @@ namespace MathPreparationApp.Services.Data
                 ImageBytes = question.ImageBytes,
                 Solution = question.Solution,
                 SubjectId = question.SubjectId,
-                TopicId = question.TopicId,
+                TopicId = question.TopicId
             };
         }
     }

@@ -20,6 +20,10 @@
                 .HasDefaultValue(true);
 
             builder
+                .Property(q => q.TopicId)
+                .IsRequired();
+
+            builder
                 .HasOne(q => q.Subject)
                 .WithMany(s => s.Questions)
                 .HasForeignKey(q => q.SubjectId)

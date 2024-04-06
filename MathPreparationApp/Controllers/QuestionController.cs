@@ -1,4 +1,6 @@
-﻿namespace MathPreparationApp.Web.Controllers
+﻿using System.Runtime.CompilerServices;
+
+namespace MathPreparationApp.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -48,7 +50,7 @@
             }
             if (!topicExists)
             {
-                ModelState.AddModelError(nameof(model.SubjectId), "Selected topic does not exist!");
+                ModelState.AddModelError(nameof(model.TopicId), "Selected topic does not exist!");
             }
 
             if (!ModelState.IsValid)
@@ -60,7 +62,6 @@
 
             if (imageFile != null)
             {
-
                 using (var memoryStream = new MemoryStream())
                 {
                     await imageFile.CopyToAsync(memoryStream);
@@ -86,15 +87,86 @@
 
         public async Task<IActionResult> Edit(string id)
         {
+            bool questionExists = await this.questionService.QuestionExistsByIdAsync(id);
+
+            if (!questionExists)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                QuestionEditFormModel formModel = await this.questionService
+                    .GetQuestionByIdAsync(id);
+                formModel.Subjects = await this.subjectService.AllSubjectsAsync();
+
+                return this.View(formModel);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unexpected error occured while trying to retrieve question with the provided questionId!");
+            }
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Edit(string id, QuestionEditFormModel model, [FromForm] IFormFile? imageFile)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                model.Subjects = await this.subjectService.AllSubjectsAsync();
+
+                return this.View(model);
+            }
+
+            bool questionExists = await this.questionService.QuestionExistsByIdAsync(id);
+
+            if (!questionExists)
+            {
+                return BadRequest();
+            }
+
+            if (model.RemoveImage)
+            {
+                model.ImageBytes = null;
+            }
+            else if (imageFile != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await imageFile.CopyToAsync(memoryStream);
+                    model.ImageBytes = memoryStream.ToArray();
+                }
+            }
+
+            try
+            {
+                await this.questionService.EditAsync(id, model);
+            }
+            catch (Exception)
+            {
+                this.ModelState.AddModelError(string.Empty, "Unexpected error occured while trying to edit the question!");
+
+                model.Subjects = await this.subjectService.AllSubjectsAsync();
+                return this.View(model);
+            }
+
             return this.RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public async Task<IActionResult> OnGetTopics(int subjectId)
         {
-            IEnumerable<TopicViewModel> topics = await this.topicService.AllTopicsBySubjectIdAsync(subjectId);
+            try
+            {
+                IEnumerable<TopicViewModel> topics = await this.topicService.AllTopicsBySubjectIdAsync(subjectId);
 
-            return Json(topics);
+                return Json(topics);
+            }
+            catch (Exception)
+            {
+                throw new Exception( "Topics with the provided subjectId cannot be retrieved!");
+            }
         }
     }
 }

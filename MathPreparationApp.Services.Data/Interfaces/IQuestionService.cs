@@ -8,6 +8,8 @@
 
         Task<bool> QuestionExistsByIdAsync(string questionId);
 
-        Task<QuestionFormModel> GetQuestionByIdAsync(string questionId);
+        Task<QuestionEditFormModel> GetQuestionByIdAsync(string questionId);
+
+        Task EditAsync(string questionId, QuestionEditFormModel formModel);
     }
 }

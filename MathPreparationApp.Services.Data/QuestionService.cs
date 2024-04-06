@@ -9,6 +9,7 @@
     using Interfaces;
     using Web.ViewModels.Question;
 
+    
     public class QuestionService : IQuestionService
     {
         private readonly MathPreparationAppDbContext dbContext;
@@ -46,7 +47,7 @@
                 .AnyAsync(q => q.Id.ToString() == questionId);
         }
 
-        public async Task<QuestionFormModel> GetQuestionByIdAsync(string questionId)
+        public async Task<QuestionEditFormModel> GetQuestionByIdAsync(string questionId)
         {
             Question question = await this.dbContext
                 .Questions
@@ -55,7 +56,7 @@
                 .Where(q => q.IsActive)
                 .FirstAsync(q => q.Id.ToString() == questionId);
 
-            return new QuestionFormModel
+            return new QuestionEditFormModel
             {
                 Name = question.Name,
                 Option1 = question.Option1,
@@ -69,6 +70,30 @@
                 SubjectId = question.SubjectId,
                 TopicId = question.TopicId
             };
+        }
+
+        public async Task EditAsync(string questionId, QuestionEditFormModel formModel)
+        {
+            Question question = await this.dbContext
+                .Questions
+                .Where(q => q.IsActive)
+                .FirstAsync(q => q.Id.ToString() == questionId);
+
+
+            question.Name = formModel.Name;
+            question.Option1 = formModel.Option1;
+            question.Option2 = formModel.Option2;
+            question.Option3 = formModel.Option3;
+            question.Option4 = formModel.Option4;
+            question.CorrectOption = formModel.CorrectOption;
+            question.Points = formModel.Points;
+            question.ImageBytes = formModel.ImageBytes;
+            question.Solution = formModel.Solution;
+            question.SubjectId = formModel.SubjectId;
+            question.TopicId = formModel.TopicId;
+            question.UpdatedOn = DateTime.UtcNow;
+
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }

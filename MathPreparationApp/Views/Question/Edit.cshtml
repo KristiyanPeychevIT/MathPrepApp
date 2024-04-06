@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model QuestionFormModel
+@model QuestionEditFormModel
 
 @{
-    ViewBag.Title = "Add Question";
+    ViewBag.Title = "Edit Question";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -46,11 +46,29 @@
                 <input asp-for="Points" class="form-control" placeholder="Points...">
                 <span asp-validation-for="Points" class="small text-danger"></span>
             </div>
-            <div class="form-group">
-                <label for="imageFile">Add Question Image:</label>
-                <br />
-                <input type="file" class="form-control-file" id="imageFile" name="imageFile">
-            </div>
+            @if (Model.ImageBytes != null)
+            {
+                <div>
+                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageBytes)" style="width: 100%; height: auto;" alt="Question Image"/>
+                </div>
+                <div class="form-check">
+                    <label asp-for="RemoveImage" class="form-check-label">Remove Question Image</label>
+                    <input asp-for="RemoveImage" class="form-check-input" type="checkbox">
+                </div>
+                <div class="form-group">
+                    <label for="imageFile">Change Question Image:</label>
+                    <br />
+                    <input type="file" class="form-control-file" id="imageFile" name="imageFile">
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label for="imageFile">Add Question Image:</label>
+                    <br />
+                    <input type="file" class="form-control-file" id="imageFile" name="imageFile">
+                </div>
+            }
             <div class="form-group">
                 <label asp-for="Solution"></label>
                 <textarea asp-for="Solution" rows="4" class="form-control" placeholder="Explanation..."></textarea>
@@ -59,7 +77,6 @@
             <div class="form-group">
                 <label asp-for="SubjectId"></label>
                 <select asp-for="SubjectId" class="form-control" id="subjectsDropdown">
-                    <option value="">-- Select Subject --</option>
                     @foreach (var subject in Model.Subjects)
                     {
                         <option value="@subject.Id">@subject.Name</option>
@@ -69,7 +86,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="TopicId"></label>
-                <select asp-for="TopicId" class="form-control" id="topicsDropdown" disabled>
+                <select asp-for="TopicId" class="form-control" id="topicsDropdown">
                     <option value="">-- Select Topic --</option>
                 </select>
                 <span asp-validation-for="TopicId" class="text-danger"></span>
@@ -84,28 +101,39 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        document.getElementById("subjectsDropdown").addEventListener("change", function () {
-            var subjectId = this.value;
-            var topicsDropdown = document.getElementById("topicsDropdown");
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to load topics for a subject
+            function loadTopics(subjectId, selectedTopicId = null) {
+                var topicsDropdown = document.getElementById("topicsDropdown");
 
-            // Make AJAX request to fetch topics
-            fetch(`../../../Question/OnGetTopics?subjectId=${subjectId}`)
-                .then(response => response.json())
-                .then(topics => {
-                    // Clear existing options
-                    topicsDropdown.innerHTML = "";
+                fetch(`../../../Question/OnGetTopics?subjectId=${subjectId}`)
+                    .then(response => response.json())
+                    .then(topics => {
+                        topicsDropdown.innerHTML = "";
 
-                    // Populate topics dropdown
-                    topics.forEach(topic => {
-                        var option = document.createElement("option");
-                        option.text = topic.name;
-                        option.value = topic.id;
-                        topicsDropdown.appendChild(option);
+                        topics.forEach(topic => {
+                            var option = document.createElement("option");
+                            option.text = topic.name;
+                            option.value = topic.id;
+                            topicsDropdown.appendChild(option);
+
+                            if (topic.id === selectedTopicId) {
+                                option.selected = true;
+                            }
+                        });
                     });
+            }
 
-                    // Enable topics dropdown
-                    topicsDropdown.disabled = false;
-                });
+            // Listen for changes on the subjects dropdown
+            var subjectsDropdown = document.getElementById("subjectsDropdown");
+            subjectsDropdown.addEventListener("change", function () {
+                loadTopics(this.value);
+            });
+
+            // Initial load of topics
+            var selectedSubjectId = subjectsDropdown.value;
+            var selectedTopicId = @Html.Raw(Json.Serialize(Model.TopicId)); // Assuming Model.TopicId holds the current topic ID
+            loadTopics(selectedSubjectId, selectedTopicId);
         });
     </script>
 }

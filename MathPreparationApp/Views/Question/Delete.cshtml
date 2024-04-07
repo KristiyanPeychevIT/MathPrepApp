@@ -1,0 +1,57 @@
+﻿@using MathPreparationApp.Services.Data.Interfaces
+@using MathPreparationApp.Data.Models
+@model QuestionDeleteViewModel
+@inject ISubjectService SubjectService
+@inject ITopicService TopicService
+@{
+    ViewBag.Title = "Delete Question";
+}
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<form asp-action="Delete">
+    <div class="row">
+        @if (Model.ImageBytes != null)
+        {
+            <div class="col-md-4">
+                <img class="card-img-top" style="height: 100%; width: 100%" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageBytes)" alt="Question Image" />
+            </div>
+        }
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="CorrectOption" class="control-label"></label>
+                <input asp-for="CorrectOption" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Points" class="control-label"></label>
+                <input asp-for="Points" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Solution" class="control-label"></label>
+                <input asp-for="Solution" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SubjectId" class="control-label"></label>
+                @{
+                    Subject subject = await this.SubjectService.GetSubjectByIdAsync(@Model.SubjectId);
+                    string subjectName = subject.Name;
+                }
+                <input asp-for="@subjectName" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Solution" class="control-label"></label>
+                @{
+                    Topic topic = await this.TopicService.GetTopicByIdAsync(@Model.TopicId);
+                    string topicName = topic.Name;
+                }
+                <input asp-for="@topicName" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" value="Delete" class="btn btn-danger"/>
+            </div>
+        </div>
+    </div>
+</form>

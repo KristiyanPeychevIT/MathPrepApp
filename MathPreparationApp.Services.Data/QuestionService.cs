@@ -8,6 +8,7 @@
     using MathPreparationApp.Data.Models;
     using Interfaces;
     using Web.ViewModels.Question;
+    using MathPreparationApp.Web.ViewModels.Topic;
 
     
     public class QuestionService : IQuestionService
@@ -72,6 +73,25 @@
             };
         }
 
+        public async Task<QuestionDeleteViewModel> GetQuestionForDeleteByIdAsync(string questionId)
+        {
+            Question question = await this.dbContext
+                .Questions
+                .Where(q => q.IsActive)
+                .FirstAsync(q => q.Id.ToString() == questionId);
+
+            return new QuestionDeleteViewModel()
+            {
+                Name = question.Name,
+                CorrectOption = question.CorrectOption,
+                Points = question.Points,
+                ImageBytes = question.ImageBytes,
+                Solution = question.Solution,
+                SubjectId = question.SubjectId,
+                TopicId = question.TopicId
+            };
+        }
+
         public async Task EditAsync(string questionId, QuestionEditFormModel formModel)
         {
             Question question = await this.dbContext
@@ -91,7 +111,19 @@
             question.Solution = formModel.Solution;
             question.SubjectId = formModel.SubjectId;
             question.TopicId = formModel.TopicId;
-            question.UpdatedOn = DateTime.UtcNow;
+            question.UpdatedOn = DateTime.Now;
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(string questionId)
+        {
+            Question questionToDelete = await this.dbContext
+                .Questions
+                .Where(q => q.IsActive)
+                .FirstAsync(q => q.Id.ToString() == questionId);
+
+            questionToDelete.IsActive = false;
 
             await this.dbContext.SaveChangesAsync();
         }

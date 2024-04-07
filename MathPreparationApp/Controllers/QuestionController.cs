@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using MathPreparationApp.Data.Models;
 
 namespace MathPreparationApp.Web.Controllers
 {
@@ -152,6 +153,51 @@ namespace MathPreparationApp.Web.Controllers
             }
 
             return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            bool questionExists = await this.questionService.QuestionExistsByIdAsync(id);
+
+            if (!questionExists)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                QuestionDeleteViewModel viewModel = await this.questionService
+                    .GetQuestionForDeleteByIdAsync(id);
+
+                return this.View(viewModel);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unexpected error occured while trying to retrieve question with the provided questionId!");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, QuestionDeleteViewModel model)
+        {
+            bool questionExists = await this.questionService.QuestionExistsByIdAsync(id);
+
+            if (!questionExists)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await this.questionService.DeleteAsync(id);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Unexpected error occured while deleting a question!");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

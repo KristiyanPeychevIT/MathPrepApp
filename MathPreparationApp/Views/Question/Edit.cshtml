@@ -132,7 +132,7 @@
 
             // Initial load of topics
             var selectedSubjectId = subjectsDropdown.value;
-            var selectedTopicId = @Html.Raw(Json.Serialize(Model.TopicId)); // Assuming Model.TopicId holds the current topic ID
+            var selectedTopicId = @Html.Raw(Json.Serialize(Model.TopicId));
             loadTopics(selectedSubjectId, selectedTopicId);
         });
     </script>

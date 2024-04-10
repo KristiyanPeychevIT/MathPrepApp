@@ -1,0 +1,121 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using MathPreparationApp.Web.ViewModels.Question.Enums
+@model TestFormModel
+
+@{
+    ViewBag.Title = "Create Test";
+    Layout = "_TestLayout";
+}
+
+<form method="post">
+    <div class="card">
+        <div class="form-input">
+            <select asp-for="SubjectId" class="input-control" id="subjectsDropdown">
+                <option value="">Choose a subject</option>
+                @foreach (var subject in Model.Subjects)
+                {
+                    <option value="@subject.Id">@subject.Name</option>
+                }
+            </select>
+            <span asp-validation-for="SubjectId" class="text-danger"></span>
+            <select asp-for="TopicId" class="input-control" id="topicsDropdown" disabled>
+                <option value="">Choose a topic</option>
+            </select>
+            <span asp-validation-for="TopicId" class="text-danger"></span>
+        </div>
+        <div class="form-input">
+            <label>Which category of questions should be included?</label>
+            <select asp-for="CategoryOfQuestion" class="input-control">
+                <option value="0">All</option>
+                <option value="1">Not Answered Before</option>
+                <option value="2">Never Answered Correctly</option>
+            </select>
+        </div>
+        <div class="form-input">
+            <label asp-for="NumberOfQuestions">Number of questions:</label>
+            <input asp-for="NumberOfQuestions" class="input-control" type="number" min="1">
+        </div>
+        <div class="form-input">
+            <label>Show answers:</label>
+            <nav class="input-control" id="navigation1">
+                <a href="#" data-handler="AfterTest" class="button-nav"><span asp-validation-for="ShowAnswers">After Test</span></a>
+                <a href="#" data-handler="AfterChoice" class="button-nav"><span asp-validation-for="ShowAnswers">After Choice</span></a>
+                <a href="#" data-handler="BeforeChoice" class="button-nav"><span asp-validation-for="ShowAnswers">Before Choice</span></a>
+            </nav>
+        </div>
+        <div class="form-input">
+            <label>Sort Questions:</label>
+            <nav class="input-control" id="navigation2">
+                <a href="#" data-handler="Randomly" class="button-nav"><span asp-validation-for="ShowAnswers">Randomly</span></a>
+                <a href="#" data-handler="NewestFirst" class="button-nav"><span asp-validation-for="ShowAnswers">Newest First</span></a>
+                <a href="#" data-handler="OldestFirst" class="button-nav"><span asp-validation-for="ShowAnswers">Oldest First</span></a>
+            </nav>
+        </div>
+        <div class="form-input">
+            <button type="submit" class="btn btn-primary">Start test</button>
+        </div>
+    </div>
+</form>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById("subjectsDropdown").addEventListener("change", function () {
+            var subjectId = this.value;
+            var topicsDropdown = document.getElementById("topicsDropdown");
+
+            // Make AJAX request to fetch topics
+            fetch(`../../../Question/OnGetTopics?subjectId=${subjectId}`)
+                .then(response => response.json())
+                .then(topics => {
+                    // Clear existing options
+                    topicsDropdown.innerHTML = "";
+
+                    // Populate topics dropdown
+                    topics.forEach(topic => {
+                        var option = document.createElement("option");
+                        option.text = topic.name;
+                        option.value = topic.id;
+                        topicsDropdown.appendChild(option);
+                    });
+
+                    // Enable topics dropdown
+                    topicsDropdown.disabled = false;
+                });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const buttons1 = document.querySelectorAll("#navigation1 .button-nav");
+            const buttons2 = document.querySelectorAll("#navigation2 .button-nav");
+
+            buttons1.forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault(); // Prevent default link behavior
+                    handleButtonClick(button);
+                });
+            });
+
+            buttons2.forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault(); // Prevent default link behavior
+                    handleButtonClick(button);
+                });
+            });
+
+            function handleButtonClick(button) {
+                const buttons = button.parentElement.querySelectorAll(".button-nav");
+
+                // Remove "selected" class from all buttons in the same navigation tag
+                buttons.forEach(btn => {
+                    btn.classList.remove("selected");
+                });
+
+                // Add "selected" class to clicked button
+                button.classList.add("selected");
+            }
+        });
+    </script>
+}

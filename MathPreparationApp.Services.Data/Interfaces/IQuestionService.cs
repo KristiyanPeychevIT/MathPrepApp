@@ -1,4 +1,6 @@
-﻿namespace MathPreparationApp.Services.Data.Interfaces
+﻿using MathPreparationApp.Data.Models;
+
+namespace MathPreparationApp.Services.Data.Interfaces
 {
     using MathPreparationApp.Web.ViewModels.Topic;
     using Web.ViewModels.Question;
@@ -14,5 +16,8 @@
 
         Task EditAsync(string questionId, QuestionEditFormModel formModel);
         Task DeleteAsync(string questionId);
+
+        Task<IQueryable<Question>> GetNotAnsweredBeforeQuestionsAsync();
+        Task<IQueryable<Question>> GetNeverAnsweredCorrectlyQuestionsAsync();
     }
 }

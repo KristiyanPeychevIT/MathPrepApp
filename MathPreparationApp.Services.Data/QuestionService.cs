@@ -9,8 +9,9 @@
     using Interfaces;
     using Web.ViewModels.Question;
     using MathPreparationApp.Web.ViewModels.Topic;
+    using System.Collections.Generic;
+    using System.Linq;
 
-    
     public class QuestionService : IQuestionService
     {
         private readonly MathPreparationAppDbContext dbContext;
@@ -126,6 +127,46 @@
             questionToDelete.IsActive = false;
 
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IQueryable<Question>> GetNotAnsweredBeforeQuestionsAsync()
+        {
+            IEnumerable<Guid>? questionsAnsweredIds = await this.dbContext
+                .UsersAnsweredQuestions
+                .Where(u => u.UserId.ToString() == u.User.Id.ToString())
+                .Select(q => q.QuestionId)
+                .ToListAsync();
+
+            IEnumerable<Question> notAnsweredBeforeQuestions = await this.dbContext
+                .Questions
+                .Where(q => q.IsActive)
+                .Where(q => questionsAnsweredIds.Contains(q.Id) == false)
+                .ToListAsync();
+
+            return notAnsweredBeforeQuestions.AsQueryable();
+        }
+
+        public async Task<IQueryable<Question>> GetNeverAnsweredCorrectlyQuestionsAsync()
+        {
+            IEnumerable<Guid>? questionsAnsweredIncorrectlyIds = await this.dbContext
+                .UsersAnsweredQuestions
+                .Where(u => u.UserId.ToString() == u.User.Id.ToString())
+                .Where(q => q.AnsweredCorrectly == false)
+                .Select(q => q.QuestionId)
+                .ToListAsync();
+
+            IEnumerable<Question> questionsAnsweredIncorrectly = await this.dbContext
+                .Questions
+                .Where(q => q.IsActive)
+                .Where(q => questionsAnsweredIncorrectlyIds.Contains(q.Id))
+                .ToListAsync();
+
+            IEnumerable<Question> notAnsweredBeforeQuestions = await GetNotAnsweredBeforeQuestionsAsync();
+
+            IEnumerable<Question> neverAnsweredCorrectlyQuestions =
+                questionsAnsweredIncorrectly.Concat(notAnsweredBeforeQuestions);
+
+            return neverAnsweredCorrectlyQuestions.AsQueryable();
         }
     }
 }

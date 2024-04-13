@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Question\" />
+    <ProjectReference Include="..\MathPreparationApp.ViewModels\MathPreparationApp.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -35,20 +35,22 @@
             <label asp-for="NumberOfQuestions">Number of questions:</label>
             <input asp-for="NumberOfQuestions" class="input-control" type="number" min="1">
         </div>
+        @*<input type="hidden" asp-for="ShowAnswers" />
         <div class="form-input">
             <label>Show answers:</label>
-            <nav class="input-control" id="navigation1">
-                <a href="#" data-handler="AfterTest" class="button-nav"><span asp-validation-for="ShowAnswers">After Test</span></a>
-                <a href="#" data-handler="AfterChoice" class="button-nav"><span asp-validation-for="ShowAnswers">After Choice</span></a>
-                <a href="#" data-handler="BeforeChoice" class="button-nav"><span asp-validation-for="ShowAnswers">Before Choice</span></a>
+            <nav class="input-control" id="navigation1">    
+                <a href="#" data-handler="AfterTest" class="button-nav" data-value="0">After Test</a>
+                <a href="#" data-handler="AfterChoice" class="button-nav" data-value="1">After Choice</a>
+                <a href="#" data-handler="BeforeChoice" class="button-nav" data-value="2">Before Choice</a>
             </nav>
-        </div>
+        </div>*@
+        <input type="hidden" asp-for="SortQuestions" />
         <div class="form-input">
             <label>Sort Questions:</label>
             <nav class="input-control" id="navigation2">
-                <a href="#" data-handler="Randomly" class="button-nav"><span asp-validation-for="ShowAnswers">Randomly</span></a>
-                <a href="#" data-handler="NewestFirst" class="button-nav"><span asp-validation-for="ShowAnswers">Newest First</span></a>
-                <a href="#" data-handler="OldestFirst" class="button-nav"><span asp-validation-for="ShowAnswers">Oldest First</span></a>
+                <a href="#" data-handler="Randomly" class="button-nav" data-value="0">Randomly</a>
+                <a href="#" data-handler="NewestFirst" class="button-nav" data-value="1">Newest First</a>
+                <a href="#" data-handler="OldestFirst" class="button-nav" data-value="2">Oldest First</a>
             </nav>
         </div>
         <div class="form-input">
@@ -71,7 +73,7 @@
                 .then(response => response.json())
                 .then(topics => {
                     // Clear existing options
-                    topicsDropdown.innerHTML = "";
+                    //topicsDropdown.innerHTML = "";
 
                     // Populate topics dropdown
                     topics.forEach(topic => {
@@ -88,19 +90,23 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const buttons1 = document.querySelectorAll("#navigation1 .button-nav");
+            //const buttons1 = document.querySelectorAll("#navigation1 .button-nav");
             const buttons2 = document.querySelectorAll("#navigation2 .button-nav");
 
-            buttons1.forEach(button => {
-                button.addEventListener("click", function (event) {
-                    event.preventDefault(); // Prevent default link behavior
-                    handleButtonClick(button);
-                });
-            });
+            //buttons1.forEach(button => {
+            //    button.addEventListener("click", function (event) {
+            //        event.preventDefault(); // Prevent default link behavior
+
+            //        document.querySelector('input[name="ShowAnswers"]').value = button.getAttribute('data-value');
+            //        handleButtonClick(button);
+            //    });
+            //});
 
             buttons2.forEach(button => {
                 button.addEventListener("click", function (event) {
                     event.preventDefault(); // Prevent default link behavior
+
+                    document.querySelector('input[name="SortQuestions"]').value = button.getAttribute('data-value');
                     handleButtonClick(button);
                 });
             });

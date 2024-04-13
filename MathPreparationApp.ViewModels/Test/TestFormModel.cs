@@ -20,12 +20,13 @@
         public int SubjectId { get; set; }
 
         [Display(Name = "Topic")]
-        public int TopicId { get; set; }
+        public int? TopicId { get; set; }
 
         public int NumberOfQuestions { get; set; }
 
         public CategoryOfQuestions CategoryOfQuestion { get; set; }
-        public ShowAnswers ShowAnswers { get; set; }
+
+        //public ShowAnswers ShowAnswers { get; set; }
         public SortQuestions SortQuestions { get; set; }
 
         public int QuestionCount { get; set; }

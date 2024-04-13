@@ -4,17 +4,19 @@
 
     using MathPreparationApp.Services.Data.Interfaces;
     using ViewModels.Test;
-    using ViewModels.Question.Enums;
+    using MathPreparationApp.Services.Data.Models.Question;
 
     public class TestController : Controller
     {
-        private readonly ISubjectService subjectService;
         private readonly IQuestionService questionService;
+        private readonly ISubjectService subjectService;
+        private readonly ITestService testService;
 
-        public TestController(IQuestionService questionService, ISubjectService subjectService)
+        public TestController(IQuestionService questionService, ISubjectService subjectService, ITestService testService)
         {
             this.questionService = questionService;
             this.subjectService = subjectService;
+            this.testService = testService;
         }
 
         [HttpGet]
@@ -29,8 +31,14 @@
 
         [HttpPost]
 
-        public async Task<IActionResult> Create(TestFormModel formModel)
+        public async Task<IActionResult> Create([FromForm]TestFormModel formModel)
         {
+            AllQuestionsFilteredServiceModel serviceModel =
+                await this.testService.AllAsync(formModel);
+
+            formModel.Questions = serviceModel.Questions;
+            formModel.QuestionCount = serviceModel.TotalQuestionsCount;
+
             return RedirectToAction("Index", "Home");
         }
     }

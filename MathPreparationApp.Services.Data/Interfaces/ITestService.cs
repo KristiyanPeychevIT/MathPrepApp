@@ -1,13 +1,12 @@
 ﻿namespace MathPreparationApp.Services.Data.Interfaces
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
+
+    using Models.Question;
+    using Web.ViewModels.Test;
 
     public interface ITestService
     {
-
+        Task<AllQuestionsFilteredServiceModel> AllAsync(TestFormModel queryModel);
     }
 }

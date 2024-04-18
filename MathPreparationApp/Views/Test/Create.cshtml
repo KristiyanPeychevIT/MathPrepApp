@@ -9,31 +9,43 @@
 
 <form method="post">
     <div class="card">
-        <div class="form-input">
-            <select asp-for="SubjectId" class="input-control" id="subjectsDropdown">
-                <option value="">Choose a subject</option>
-                @foreach (var subject in Model.Subjects)
-                {
-                    <option value="@subject.Id">@subject.Name</option>
-                }
-            </select>
-            <span asp-validation-for="SubjectId" class="text-danger"></span>
-            <select asp-for="TopicId" class="input-control" id="topicsDropdown" disabled>
-                <option value="">Choose a topic</option>
-            </select>
-            <span asp-validation-for="TopicId" class="text-danger"></span>
+        <div class="row">
+            <div class="col-md-6">
+                <select asp-for="SubjectId" class="input-control" id="subjectsDropdown">
+                    <option value="">Choose a subject</option>
+                    @foreach (var subject in Model.Subjects)
+                    {
+                        <option value="@subject.Id">@subject.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <select asp-for="TopicId" class="input-control" id="topicsDropdown" disabled>
+                    <option value="">Choose a topic</option>
+                </select>
+                <span asp-validation-for="TopicId" class="text-danger"></span>
+            </div>
         </div>
-        <div class="form-input">
-            <label>Which category of questions should be included?</label>
-            <select asp-for="CategoryOfQuestion" class="input-control">
-                <option value="0">All</option>
-                <option value="1">Not Answered Before</option>
-                <option value="2">Never Answered Correctly</option>
-            </select>
+        <div class="row">
+            <div class="col-md-6">
+            <label class="input-control">Which category of questions should be included?</label>
+            </div>
+            <div class="col-md-6">
+                <select asp-for="CategoryOfQuestion" class="input-control">
+                    <option value="0">All</option>
+                    <option value="1">Not Answered Before</option>
+                    <option value="2">Never Answered Correctly</option>
+                </select>
+            </div>
         </div>
-        <div class="form-input">
-            <label asp-for="NumberOfQuestions">Number of questions:</label>
-            <input asp-for="NumberOfQuestions" class="input-control" type="number" min="1">
+        <div class="row">
+            <div class="col-md-6">
+            <label asp-for="NumberOfQuestions" class="input-control">Number of questions:</label>
+            </div>
+            <div class="col-md-6">
+                <input asp-for="NumberOfQuestions" class="input-control" type="number" min="1">
+            </div>
         </div>
         @*<input type="hidden" asp-for="ShowAnswers" />
         <div class="form-input">
@@ -44,17 +56,21 @@
                 <a href="#" data-handler="BeforeChoice" class="button-nav" data-value="2">Before Choice</a>
             </nav>
         </div>*@
-        <input type="hidden" asp-for="SortQuestions" />
-        <div class="form-input">
-            <label>Sort Questions:</label>
-            <nav class="input-control" id="navigation2">
-                <a href="#" data-handler="Randomly" class="button-nav" data-value="0">Randomly</a>
-                <a href="#" data-handler="NewestFirst" class="button-nav" data-value="1">Newest First</a>
-                <a href="#" data-handler="OldestFirst" class="button-nav" data-value="2">Oldest First</a>
-            </nav>
+        <div class="row">
+            <input type="hidden" asp-for="SortQuestions"/>
+            <div class="col-md-6">
+            <label class="input-control">Sort Questions:</label>
+            </div>
+            <div class="col-md-6">
+                <nav class="input-control" id="navigation2">
+                    <a href="#" data-handler="Randomly" class="button-nav" data-value="0">Randomly</a>
+                    <a href="#" data-handler="NewestFirst" class="button-nav" data-value="1">Newest First</a>
+                    <a href="#" data-handler="OldestFirst" class="button-nav" data-value="2">Oldest First</a>
+                </nav>
+            </div>
         </div>
         <div class="form-input">
-            <button type="submit" class="btn btn-primary">Start test</button>
+            <button type="submit" class="btn btn-success">Start test</button>
         </div>
     </div>
 </form>

@@ -23,7 +23,7 @@
 
         public static class Topic
         {
-            public const int NameMinLength = 5;
+            public const int NameMinLength = 3;
             public const int NameMaxLength = 300;
         }
 

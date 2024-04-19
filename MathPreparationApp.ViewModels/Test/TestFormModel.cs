@@ -13,7 +13,7 @@
             this.Subjects = new HashSet<SubjectViewModel>();
             this.Topics = new HashSet<TopicViewModel>();
 
-            this.Questions = new HashSet<QuestionFormModel>();
+            this.Questions = new HashSet<QuestionTestViewModel>();
         }
 
         [Display(Name = "Subject")]
@@ -34,6 +34,6 @@
         public IEnumerable<SubjectViewModel> Subjects { get; set; }
         public IEnumerable<TopicViewModel> Topics { get; set; }
 
-        public IEnumerable<QuestionFormModel> Questions { get; set; }
+        public IEnumerable<QuestionTestViewModel> Questions { get; set; }
     }
 }

@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model TestFormModel
+
+@{
+    ViewBag.Title = "Take Test";
+    Layout = "_TestLayout";
+}
+
+<div class="test-container">
+    <div class="question-number">
+        <h1>Question 1/@Model.QuestionCount</h1>
+    </div>
+
+    <div class="pagination">
+        <!-- Pagination buttons dynamically generated -->
+        @for (int i = 0; i < Model.QuestionCount; i++)
+        {
+            <button class="pagination-button" data-question-index="@i">@Html.Raw(i + 1)</button>
+        }
+    </div>
+
+    <div class="question">
+        <h2>@Model.Questions.ToArray()[0].Name</h2>
+        <ul class="options">
+            <li><div>@Model.Questions.ToArray()[0].Option1</div></li>
+            <li><div>@Model.Questions.ToArray()[0].Option2</div></li>
+            <li><div>@Model.Questions.ToArray()[0].Option3</div></li>
+            <li><div>@Model.Questions.ToArray()[0].Option4</div></li>
+        </ul>
+    </div>
+
+    <div class="navigation-arrows">
+        <button id="prev-question">&larr; Previous</button>
+        <button id="next-question">Next &rarr;</button>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+    <script>
+        const testModel = @Json.Serialize(Model);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const paginationButtons = document.querySelectorAll(".pagination-button");
+            const questionContainer = document.querySelector(".question");
+            const questionNameElement = questionContainer.querySelector("h2");
+            const optionsListElement = questionContainer.querySelector(".options");
+            const questionNumberElement = document.querySelector(".question-number h1");
+            const previousQuestionButton = document.querySelector("#prev-question");
+            const nextQuestionButton = document.querySelector("#next-question");
+
+            let btnIndex = 0; // Start with the first question
+
+            function updateQuestion(index) {
+                let questionData = testModel.questions[index];
+
+                // Update question name
+                questionNameElement.textContent = questionData.name;
+
+                // Update question options
+                optionsListElement.innerHTML = '';
+                for (let i = 0; i < 4; i++) {
+                    let listItem = document.createElement("li");
+                    let answer = document.createElement("div");
+
+                    answer.append(" " + String.fromCharCode(65 + i) + " " + questionData["option" + (i + 1)]);
+
+                    listItem.appendChild(answer);
+                    optionsListElement.appendChild(listItem);
+                }
+
+                // Update question number
+                questionNumberElement.textContent = "Question " + (index + 1) + "/" + testModel.questions.length;
+            }
+
+            paginationButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    btnIndex = parseInt(button.getAttribute('data-question-index'));
+                    console.log(btnIndex);
+                    updateQuestion(btnIndex);
+                });
+            });
+
+            previousQuestionButton.addEventListener("click", function () {
+                if (btnIndex > 0) {
+                    btnIndex--;
+                    updateQuestion(btnIndex);
+                }
+            });
+
+            nextQuestionButton.addEventListener("click", function () {
+                if (btnIndex < testModel.questions.length - 1) {
+                    btnIndex++;
+                    updateQuestion(btnIndex);
+                }
+            });
+            // Initialize with the first question on page load
+            updateQuestion(0);
+        });
+    </script>
+}

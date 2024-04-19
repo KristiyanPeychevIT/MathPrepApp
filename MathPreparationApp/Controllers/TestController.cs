@@ -39,7 +39,13 @@
             formModel.Questions = serviceModel.Questions;
             formModel.QuestionCount = serviceModel.TotalQuestionsCount;
 
-            return RedirectToAction("Index", "Home");
+            return View("Take", formModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Take()
+        {
+            return View();
         }
     }
 }

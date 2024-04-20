@@ -50,9 +50,19 @@
             const nextQuestionButton = document.querySelector("#next-question");
 
             let btnIndex = 0; // Start with the first question
+            let selectedOptions = new Array(testModel.questions.length).fill(null); // Array to store selected options for each question
+
+
+            function toggleSelectedClass(index) {
+                paginationButtons.forEach(button => {
+                    if (button.getAttribute('data-question-index') == index) {
+                        button.classList.add("selected");
+                    }
+                });
+            }
 
             function updateQuestion(index) {
-                let questionData = testModel.questions[index];
+                let questionData = testModel.questions[index]; 
 
                 // Update question name
                 questionNameElement.textContent = questionData.name;
@@ -65,18 +75,42 @@
 
                     answer.append(" " + String.fromCharCode(65 + i) + " " + questionData["option" + (i + 1)]);
 
+                    let isSelected = selectedOptions[index] === i;
+
+                    answer.addEventListener("click", function () {
+                        // Remove selected attribute from all options
+                        optionsListElement.querySelectorAll("div").forEach(option => {
+                            option.removeAttribute("selected");
+                            option.style.fontWeight = "normal"; // Remove bold styling
+                        });
+
+                        // Add selected attribute and bold styling to the clicked option
+                        answer.setAttribute("selected", "selected");
+                        answer.style.fontWeight = "bold";
+
+                        selectedOptions[index] = i;
+
+                        paginationButtons[index].classList.add("answered");
+                    });
+
+                    if (isSelected) {
+                        answer.setAttribute("selected", "selected");
+                        answer.style.fontWeight = "bold";
+                    }
+
                     listItem.appendChild(answer);
                     optionsListElement.appendChild(listItem);
                 }
 
                 // Update question number
                 questionNumberElement.textContent = "Question " + (index + 1) + "/" + testModel.questions.length;
+
+                toggleSelectedClass(index);
             }
 
             paginationButtons.forEach(button => {
                 button.addEventListener("click", function () {
                     btnIndex = parseInt(button.getAttribute('data-question-index'));
-                    console.log(btnIndex);
                     updateQuestion(btnIndex);
                 });
             });
@@ -92,6 +126,25 @@
                 if (btnIndex < testModel.questions.length - 1) {
                     btnIndex++;
                     updateQuestion(btnIndex);
+                } else if (btnIndex === testModel.questions.length - 1) {
+                    let unansweredQuestions = selectedOptions.some(option => option === null);
+
+                    if (unansweredQuestions) {
+                        // Display an alert indicating that all questions must be answered
+                        alert("Please answer all questions before submitting the test.");
+                    } else {
+
+                        // Show submission confirmation popup when on the last question
+                        let confirmSubmission = confirm("Do you want to submit the test?");
+
+                        if (confirmSubmission) {
+                            // Logic to handle test submission
+                            alert("Test submitted successfully!"); // Replace with your submission logic
+                        } else {
+                            // Navigate back to the last question
+                            updateQuestion(btnIndex);
+                        }
+                    }
                 }
             });
             // Initialize with the first question on page load

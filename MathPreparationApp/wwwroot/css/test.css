@@ -58,3 +58,27 @@ nav.input-control {
         cursor: pointer;
         margin-left: auto
     }
+
+.options div {
+    cursor: pointer;
+}
+
+.question-number h1 {
+    cursor: default;
+}
+
+.question h2 {
+    cursor: default;
+}
+
+.pagination button {
+    background-color: white;
+}
+
+.pagination-button.selected {
+    background-color: gray;
+}
+
+.pagination-button.answered {
+    background-color: blue;
+}

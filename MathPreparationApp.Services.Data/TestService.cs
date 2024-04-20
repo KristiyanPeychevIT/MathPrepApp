@@ -91,6 +91,32 @@ namespace MathPreparationApp.Services.Data
             };
         }
 
+        public async Task<IEnumerable<QuestionTestViewModel>> GetQuestionsByIdsAsync(Guid[] questionIds)
+        {
+            IEnumerable<QuestionTestViewModel> questions = await this.dbContext
+                .Questions
+                .Where(q => questionIds.Contains(q.Id))
+                .Select(q => new QuestionTestViewModel
+                {
+                    Id = q.Id.ToString(),
+                    Name = q.Name,
+                    Option1 = q.Option1,
+                    Option2 = q.Option2,
+                    Option3 = q.Option3,
+                    Option4 = q.Option4,
+                    CorrectOption = q.CorrectOption,
+                    Points = q.Points,
+                    ImageBytes = q.ImageBytes,
+                    Solution = q.Solution,
+                    SubjectId = q.SubjectId,
+                    TopicId = q.TopicId,
+
+                })
+                .ToArrayAsync();
+
+            return questions;
+        }
+
         private IQueryable<T> Shuffle<T>(List<T> list)
         {
             // Fisher-Yates shuffle algorithm

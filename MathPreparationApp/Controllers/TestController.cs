@@ -5,6 +5,8 @@
     using MathPreparationApp.Services.Data.Interfaces;
     using ViewModels.Test;
     using MathPreparationApp.Services.Data.Models.Question;
+    using MathPreparationApp.Web.ViewModels.Question;
+    using System.Text.Json;
 
     public class TestController : Controller
     {
@@ -30,7 +32,6 @@
         }
 
         [HttpPost]
-
         public async Task<IActionResult> Create([FromForm]TestFormModel formModel)
         {
             AllQuestionsFilteredServiceModel serviceModel =
@@ -39,13 +40,27 @@
             formModel.Questions = serviceModel.Questions;
             formModel.QuestionCount = serviceModel.TotalQuestionsCount;
 
-            return View("Take", formModel);
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var formModelJson = JsonSerializer.Serialize(formModel, jsonSerializerOptions);
+            HttpContext.Session.SetString("FormModel", formModelJson);
+            return RedirectToAction("Take", "Test");
         }
 
         [HttpGet]
         public async Task<IActionResult> Take()
         {
-            return View();
+            var formModelJson = HttpContext.Session.GetString("FormModel");
+            if (formModelJson == null)
+            {
+                // Handle case where formModel is not found
+                return RedirectToAction("Create");
+            }
+
+            var formModel = JsonSerializer.Deserialize<TestFormModel>(formModelJson);
+            return this.View(formModel);
         }
     }
 }

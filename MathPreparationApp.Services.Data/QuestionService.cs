@@ -129,16 +129,15 @@
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<IQueryable<Question>> GetNotAnsweredBeforeQuestionsAsync()
+        public async Task<IQueryable<Question>> GetNotAnsweredBeforeQuestionsAsync(string userId, IQueryable<Question> questionsQuery)
         {
             IEnumerable<Guid>? questionsAnsweredIds = await this.dbContext
                 .UsersAnsweredQuestions
-                .Where(u => u.UserId.ToString() == u.User.Id.ToString())
+                .Where(u => u.UserId.ToString() == userId)
                 .Select(q => q.QuestionId)
                 .ToListAsync();
 
-            IEnumerable<Question> notAnsweredBeforeQuestions = await this.dbContext
-                .Questions
+            IEnumerable<Question> notAnsweredBeforeQuestions = await questionsQuery
                 .Where(q => q.IsActive)
                 .Where(q => questionsAnsweredIds.Contains(q.Id) == false)
                 .ToListAsync();
@@ -146,22 +145,21 @@
             return notAnsweredBeforeQuestions.AsQueryable();
         }
 
-        public async Task<IQueryable<Question>> GetNeverAnsweredCorrectlyQuestionsAsync()
+        public async Task<IQueryable<Question>> GetNeverAnsweredCorrectlyQuestionsAsync(string userId, IQueryable<Question> questionsQuery)
         {
             IEnumerable<Guid>? questionsAnsweredIncorrectlyIds = await this.dbContext
                 .UsersAnsweredQuestions
-                .Where(u => u.UserId.ToString() == u.User.Id.ToString())
+                .Where(u => u.UserId.ToString() == userId)
                 .Where(q => q.AnsweredCorrectly == false)
                 .Select(q => q.QuestionId)
                 .ToListAsync();
 
-            IEnumerable<Question> questionsAnsweredIncorrectly = await this.dbContext
-                .Questions
+            IEnumerable<Question> questionsAnsweredIncorrectly = await questionsQuery
                 .Where(q => q.IsActive)
                 .Where(q => questionsAnsweredIncorrectlyIds.Contains(q.Id))
                 .ToListAsync();
 
-            IEnumerable<Question> notAnsweredBeforeQuestions = await GetNotAnsweredBeforeQuestionsAsync();
+            IEnumerable<Question> notAnsweredBeforeQuestions = await GetNotAnsweredBeforeQuestionsAsync(userId, questionsQuery);
 
             IEnumerable<Question> neverAnsweredCorrectlyQuestions =
                 questionsAnsweredIncorrectly.Concat(notAnsweredBeforeQuestions);

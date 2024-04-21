@@ -17,7 +17,7 @@ namespace MathPreparationApp.Services.Data.Interfaces
         Task EditAsync(string questionId, QuestionEditFormModel formModel);
         Task DeleteAsync(string questionId);
 
-        Task<IQueryable<Question>> GetNotAnsweredBeforeQuestionsAsync();
-        Task<IQueryable<Question>> GetNeverAnsweredCorrectlyQuestionsAsync();
+        Task<IQueryable<Question>> GetNotAnsweredBeforeQuestionsAsync(string userId, IQueryable<Question> questionsQuery);
+        Task<IQueryable<Question>> GetNeverAnsweredCorrectlyQuestionsAsync(string userId, IQueryable<Question> questionsQuery);
     }
 }

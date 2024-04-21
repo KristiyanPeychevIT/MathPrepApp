@@ -76,9 +76,9 @@ nav.input-control {
 }
 
 .pagination-button.selected {
-    background-color: gray;
+    background-color: lightgray;
 }
 
 .pagination-button.answered {
-    background-color: blue;
+    background-color: lightblue;
 }

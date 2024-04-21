@@ -8,8 +8,10 @@
 
     public interface ITestService
     {
-        Task<AllQuestionsFilteredServiceModel> AllAsync(TestFormModel queryModel);
+        Task<AllQuestionsFilteredServiceModel> AllAsync(TestFormModel queryModel, string userId);
 
-        Task<IEnumerable<QuestionTestViewModel>> GetQuestionsByIdsAsync(Guid[] questionIds);
+        Task<IEnumerable<QuestionTestViewModel>> GetQuestionsByIdsAsync(Guid[] questionIds, Dictionary<Guid, int> originalOrder);
+
+        Task CheckAndSubmitAnswersAsync(Dictionary<Guid, int> selections, string userId);
     }
 }

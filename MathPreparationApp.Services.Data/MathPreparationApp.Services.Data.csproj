@@ -12,6 +12,7 @@
     <ProjectReference Include="..\MathPreparationApp.Data\MathPreparationApp.Data.csproj" />
     <ProjectReference Include="..\MathPreparationApp.Services.Data.Models\MathPreparationApp.Services.Data.Models.csproj" />
     <ProjectReference Include="..\MathPreparationApp.ViewModels\MathPreparationApp.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\MathPreparationApp.Web.Infrastructure\MathPreparationApp.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

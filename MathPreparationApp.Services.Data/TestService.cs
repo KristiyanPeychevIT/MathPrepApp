@@ -29,7 +29,7 @@ namespace MathPreparationApp.Services.Data
 
             _random = new Random();
         }
-        public async Task<AllQuestionsFilteredServiceModel> AllAsync(TestFormModel queryModel)
+        public async Task<AllQuestionsFilteredServiceModel> AllAsync(TestFormModel queryModel, string userId)
         {
             IQueryable<Question> questionsQuery = this.dbContext
                 .Questions
@@ -48,8 +48,8 @@ namespace MathPreparationApp.Services.Data
             questionsQuery = queryModel.CategoryOfQuestion switch
             {
                 CategoryOfQuestions.All => questionsQuery, //Takes all the questions, regardless whether they were answered correctly or incorrectly, or never answered before
-                CategoryOfQuestions.NotAnsweredBefore => await questionService.GetNotAnsweredBeforeQuestionsAsync(),
-                CategoryOfQuestions.NeverAnsweredCorrectly => await questionService.GetNeverAnsweredCorrectlyQuestionsAsync()
+                CategoryOfQuestions.NotAnsweredBefore => await questionService.GetNotAnsweredBeforeQuestionsAsync(userId, questionsQuery),
+                CategoryOfQuestions.NeverAnsweredCorrectly => await questionService.GetNeverAnsweredCorrectlyQuestionsAsync(userId, questionsQuery)
             };
 
             questionsQuery = Shuffle(questionsQuery.ToList())
@@ -91,9 +91,9 @@ namespace MathPreparationApp.Services.Data
             };
         }
 
-        public async Task<IEnumerable<QuestionTestViewModel>> GetQuestionsByIdsAsync(Guid[] questionIds)
+        public async Task<IEnumerable<QuestionTestViewModel>> GetQuestionsByIdsAsync(Guid[] questionIds, Dictionary<Guid, int> originalOrder)
         {
-            IEnumerable<QuestionTestViewModel> questions = await this.dbContext
+            var questions = await this.dbContext
                 .Questions
                 .Where(q => questionIds.Contains(q.Id))
                 .Select(q => new QuestionTestViewModel
@@ -109,12 +109,76 @@ namespace MathPreparationApp.Services.Data
                     ImageBytes = q.ImageBytes,
                     Solution = q.Solution,
                     SubjectId = q.SubjectId,
-                    TopicId = q.TopicId,
-
+                    TopicId = q.TopicId
                 })
-                .ToArrayAsync();
+                .ToListAsync();
 
-            return questions;
+            // Order questions based on the values in the originalOrder dictionary
+
+            List<QuestionTestViewModel> orderedQuestions = new List<QuestionTestViewModel>();
+            foreach (var kvp in originalOrder)
+            {
+                var question = questions.FirstOrDefault(q => q.Id.ToLower() == kvp.Key.ToString());
+                if (question != null)
+                {
+                    orderedQuestions.Add(question);
+                }
+            }
+
+            return orderedQuestions;
+        }
+
+        public async Task CheckAndSubmitAnswersAsync(Dictionary<Guid, int> selections, string userId)
+        {
+            List<Question> questions = await dbContext
+                .Questions
+                .Where(q => selections.Keys.Contains(q.Id))
+                .ToListAsync();
+
+            // Dictionary to store question IDs and whether the answers are correct (true/false)
+            var answerResults = new Dictionary<Guid, bool>();
+
+            foreach (Question question in questions)
+            {
+                // Get the selected option index for the current question
+                int selectedOptionIndex = selections[question.Id];
+
+                string selectedOption;
+
+                switch (selectedOptionIndex)
+                {
+                    case 0:
+                        selectedOption = question.Option1;
+                        break;
+                    case 1:
+                        selectedOption = question.Option2;
+                        break;
+                    case 2:
+                        selectedOption = question.Option3;
+                        break;
+                    case 3:
+                        selectedOption = question.Option4;
+                        break;
+                    default:
+                        selectedOption = "Invalid Option";
+                        break;
+                }
+                // Check if the selected option index matches the correct option index
+                bool isCorrect = selectedOption == question.CorrectOption;
+
+                // Add the question ID and the correctness of the answer to the result dictionary
+                answerResults.Add(question.Id, isCorrect);
+
+                UserAnsweredQuestion userAnsweredQuestion = new UserAnsweredQuestion
+                {
+                    UserId = Guid.Parse(userId),
+                    QuestionId = question.Id,
+                    AnsweredCorrectly = isCorrect
+                };
+
+                await this.dbContext.UsersAnsweredQuestions.AddAsync(userAnsweredQuestion);
+                await this.dbContext.SaveChangesAsync();
+            }
         }
 
         private IQueryable<T> Shuffle<T>(List<T> list)

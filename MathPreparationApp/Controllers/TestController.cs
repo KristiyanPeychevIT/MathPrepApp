@@ -1,4 +1,8 @@
-﻿namespace MathPreparationApp.Web.Controllers
+﻿using System.Diagnostics.CodeAnalysis;
+using MathPreparationApp.Data.Models;
+using MathPreparationApp.Web.Infrastructure.Extensions;
+
+namespace MathPreparationApp.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +11,7 @@
     using MathPreparationApp.Services.Data.Models.Question;
     using MathPreparationApp.Web.ViewModels.Question;
     using System.Text.Json;
+    using Newtonsoft.Json;
 
     public class TestController : Controller
     {
@@ -34,8 +39,10 @@
         [HttpPost]
         public async Task<IActionResult> Create([FromForm]TestFormModel formModel)
         {
+            string currentUserId = this.User.GetId()!;
+
             AllQuestionsFilteredServiceModel serviceModel =
-                await this.testService.AllAsync(formModel);
+                await this.testService.AllAsync(formModel, currentUserId);
 
             formModel.Questions = serviceModel.Questions;
             formModel.QuestionCount = serviceModel.TotalQuestionsCount;
@@ -44,7 +51,7 @@
             {
                 PropertyNameCaseInsensitive = true
             };
-            var formModelJson = JsonSerializer.Serialize(formModel, jsonSerializerOptions);
+            var formModelJson = System.Text.Json.JsonSerializer.Serialize(formModel, jsonSerializerOptions);
             HttpContext.Session.SetString("FormModel", formModelJson);
             return RedirectToAction("Take", "Test");
         }
@@ -59,8 +66,25 @@
                 return RedirectToAction("Create");
             }
 
-            var formModel = JsonSerializer.Deserialize<TestFormModel>(formModelJson);
+            var formModel = System.Text.Json.JsonSerializer.Deserialize<TestFormModel>(formModelJson);
             return this.View(formModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Submit(string selections)
+        {
+            string currentUserId = this.User.GetId()!;
+
+            Dictionary<Guid, int> selectedOptions = JsonConvert.DeserializeObject<Dictionary<Guid, int>>(selections)!; //Gets the QuestionIds of the questions in the test and the index of the selected option for each Question
+
+            await this.testService.CheckAndSubmitAnswersAsync(selectedOptions, currentUserId);
+
+            Guid[] questionIds = selectedOptions.Keys.ToArray();
+            // Get the questions corresponding to the question IDs
+            IEnumerable<QuestionTestViewModel> questions = await this.testService.GetQuestionsByIdsAsync(questionIds, selectedOptions);
+
+            // Pass the questions to the view
+            return View(questions);
         }
     }
 }

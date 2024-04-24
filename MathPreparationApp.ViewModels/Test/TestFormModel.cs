@@ -16,10 +16,10 @@
             this.Questions = new HashSet<QuestionTestViewModel>();
         }
 
-        [Display(Name = "Subject")]
+        [Display(Name = "Раздел")]
         public int SubjectId { get; set; }
 
-        [Display(Name = "Topic")]
+        [Display(Name = "Подраздел")]
         public int? TopicId { get; set; }
 
         public int NumberOfQuestions { get; set; }

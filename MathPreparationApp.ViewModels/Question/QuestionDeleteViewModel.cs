@@ -10,25 +10,25 @@
 
     public class QuestionDeleteViewModel
     {
-        [Display(Name = "Question Name")]
+        [Display(Name = "Условие на въпроса")]
         public string Name { get; set; } = null!;
 
-        [Display(Name = "Answer")]
+        [Display(Name = "Отговор")]
         public string CorrectOption { get; set; } = null!;
 
-        [Display(Name = "Points")]
+        [Display(Name = "Точки")]
         public int Points { get; set; }
 
-        [Display(Name = "Image")]
+        [Display(Name = "Чертеж")]
         public byte[]? ImageBytes { get; set; }
 
-        [Display(Name = "Explanation")]
+        [Display(Name = "Обяснение")]
         public string Solution { get; set; } = null!;
 
-        [Display(Name = "Subject")] 
+        [Display(Name = "Раздел")] 
         public int SubjectId { get; set; }
 
-        [Display(Name = "Topic")]
+        [Display(Name = "Подраздел")]
         public int TopicId { get; set; }
     }
 }

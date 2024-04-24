@@ -12,6 +12,6 @@
 
         Task<IEnumerable<QuestionTestViewModel>> GetQuestionsByIdsAsync(Guid[] questionIds, Dictionary<Guid, int> originalOrder);
 
-        Task CheckAndSubmitAnswersAsync(Dictionary<Guid, int> selections, string userId);
+        Task<int> CheckAndSubmitAnswersAsync(Dictionary<Guid, int> selections, string userId);
     }
 }

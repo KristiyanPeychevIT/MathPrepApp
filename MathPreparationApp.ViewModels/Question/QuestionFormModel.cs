@@ -37,7 +37,7 @@
 
         [Required]
         [StringLength(OptionMaxLength)]
-        [Display(Name = "Correct Option")]
+        [Display(Name = "Правилен отговор")]
         public string CorrectOption { get; set; } = null!;
 
         [Required]
@@ -45,18 +45,18 @@
         public int Points { get; set; }
 
         [ImageMaxSize]
-        [Display(Name = "Image")]
+        [Display(Name = "Чертеж")]
         public byte[]? ImageBytes { get; set; }
 
         [Required]
         [StringLength(SolutionMaxLength, MinimumLength = SolutionMinLength)]
-        [Display(Name = "Explanation")]
+        [Display(Name = "Обяснение")]
         public string Solution { get; set; } = null!;
 
-        [Display(Name = "Subject")]
+        [Display(Name = "Раздел")]
         public int SubjectId { get; set; }
 
-        [Display(Name = "Topic")]
+        [Display(Name = "Подраздел")]
         public int TopicId { get; set; }
 
         public IEnumerable<SubjectViewModel> Subjects { get; set; }

@@ -6,12 +6,12 @@
     public class SubjectFormModel
     {
         [Required]
-        [Display(Name = "Subject Id")]
+        [Display(Name = "Раздел Id")]
         public int Id { get; set; }
 
         [Required]
         [MaxLength(NameMaxLength), MinLength(NameMinLength)]
-        [Display(Name = "Subject Name")]
+        [Display(Name = "Раздел")]
         public string Name { get; set; } = null!;
     }
 }

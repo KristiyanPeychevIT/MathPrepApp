@@ -14,6 +14,7 @@ namespace MathPreparationApp.Services.Data
     using Models.Question;
     using Web.ViewModels.Test;
     using Web.ViewModels.Question.Enums;
+    using static System.Formats.Asn1.AsnWriter;
 
 
     public class TestService : ITestService
@@ -128,7 +129,7 @@ namespace MathPreparationApp.Services.Data
             return orderedQuestions;
         }
 
-        public async Task CheckAndSubmitAnswersAsync(Dictionary<Guid, int> selections, string userId)
+        public async Task<int> CheckAndSubmitAnswersAsync(Dictionary<Guid, int> selections, string userId)
         {
             List<Question> questions = await dbContext
                 .Questions
@@ -179,6 +180,11 @@ namespace MathPreparationApp.Services.Data
                 await this.dbContext.UsersAnsweredQuestions.AddAsync(userAnsweredQuestion);
                 await this.dbContext.SaveChangesAsync();
             }
+
+            int totalQuestions = answerResults.Count;
+            int correctAnswers = answerResults.Count(kv => kv.Value);
+            int score = (int)Math.Round((double)correctAnswers / totalQuestions * 100);
+            return score;
         }
 
         private IQueryable<T> Shuffle<T>(List<T> list)

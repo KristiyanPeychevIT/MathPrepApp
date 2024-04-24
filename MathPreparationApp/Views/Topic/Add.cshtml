@@ -2,7 +2,7 @@
 @model TopicFormModel
 
 @{
-    ViewBag.Title = "Add Topic";
+    ViewBag.Title = "Добави подраздел";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -13,7 +13,7 @@
         <form method="post">
             <div class="form-group">
                 <label asp-for="Name"></label>
-                <input asp-for="Name" class="form-control" placeholder="Name...">
+                <input asp-for="Name" class="form-control" placeholder="Име на подраздел...">
                 <span asp-validation-for="Name" class="small text-danger"></span>
             </div>
             <div class="form-group">
@@ -27,7 +27,7 @@
                 <span asp-validation-for="SubjectId" class="small textdanger"></span>
             </div>
             <div class="text-center">
-                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+                <input class="btn btn-primary mt-3" type="submit" value="Запази" />
             </div>
         </form>
     </div>

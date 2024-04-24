@@ -1,7 +1,7 @@
 ﻿@model SubjectViewModel
 
 @{
-    ViewData["Title"] = "Delete Subject";
+    ViewData["Title"] = "Изтрий раздел";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -14,17 +14,17 @@
             <div class="card-body">
                 <p class="card-text text-center">
                     <span class="fw-bold">
-                        Subject Id:
+                        Раздел Id:
                     </span>@Model.Id
                 </p>
                 <p class="card-text text-center">
                     <span class="fw-bold">
-                        Subject Name:
+                        Име на раздел:
                     </span>@Model.Name
                 </p>
             </div>
             <div class="mb-3 d-flex justify-content-center">
-                <input type="submit" value="Delete" class="btn btn-danger" />
+                <input type="submit" value="Изтрий" class="btn btn-danger" />
             </div>
         </div>
     </div>

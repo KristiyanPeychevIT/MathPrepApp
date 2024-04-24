@@ -1,18 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using MathPreparationApp.Data.Models;
-using MathPreparationApp.Web.Infrastructure.Extensions;
-
-namespace MathPreparationApp.Web.Controllers
+﻿namespace MathPreparationApp.Web.Controllers
 {
+    using System.Text.Json;
+
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using MathPreparationApp.Services.Data.Interfaces;
-    using ViewModels.Test;
     using MathPreparationApp.Services.Data.Models.Question;
+    using MathPreparationApp.Web.Infrastructure.Extensions;
     using MathPreparationApp.Web.ViewModels.Question;
-    using System.Text.Json;
     using Newtonsoft.Json;
+    using ViewModels.Test;
 
+    [Authorize]
     public class TestController : Controller
     {
         private readonly IQuestionService questionService;
@@ -77,14 +77,19 @@ namespace MathPreparationApp.Web.Controllers
 
             Dictionary<Guid, int> selectedOptions = JsonConvert.DeserializeObject<Dictionary<Guid, int>>(selections)!; //Gets the QuestionIds of the questions in the test and the index of the selected option for each Question
 
-            await this.testService.CheckAndSubmitAnswersAsync(selectedOptions, currentUserId);
+            int score = await this.testService.CheckAndSubmitAnswersAsync(selectedOptions, currentUserId);
 
             Guid[] questionIds = selectedOptions.Keys.ToArray();
             // Get the questions corresponding to the question IDs
             IEnumerable<QuestionTestViewModel> questions = await this.testService.GetQuestionsByIdsAsync(questionIds, selectedOptions);
 
-            // Pass the questions to the view
-            return View(questions);
+            FeedbackViewModel viewModel = new FeedbackViewModel()
+            {
+                Score = score,
+                Questions = questions,
+                SelectedOptions = selectedOptions
+            };
+            return View(viewModel);
         }
     }
 }

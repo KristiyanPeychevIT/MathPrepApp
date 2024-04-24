@@ -15,10 +15,10 @@
 
         [Required]
         [MaxLength(NameMaxLength), MinLength(NameMinLength)]
-        [Display(Name = "Topic Name")]
+        [Display(Name = "Подраздел")]
         public string Name { get; set; } = null!;
 
-        [Display(Name = "Subject")]
+        [Display(Name = "Раздел")]
         public int SubjectId { get; set; }
 
         public IEnumerable<SubjectViewModel> Subjects { get; set; }

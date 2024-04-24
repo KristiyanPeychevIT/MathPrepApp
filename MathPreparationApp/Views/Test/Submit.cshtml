@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model FeedbackViewModel
+
 @{
+    ViewBag.Title = "Test Feedback";
+    Layout = "_TestLayout";
+}
+
+<div class="test-container">
+    <h2 class="text-center">@(Model.Score >= 75 ? "Поздравление, ти премина теста с: " + Model.Score : "Съжаляваме, резултатът ти е: " + Model.Score)</h2>
+
+    @foreach (var question in Model.Questions)
+    {
+        <div class="question-number">
+            <h1>Въпрос @(Model.Questions.ToList().IndexOf(question) + 1)/@Model.Questions.Count()</h1>
+        </div>
+
+        <div class="pagination">
+            <!-- Pagination buttons dynamically generated -->
+            <button type="button" class="pagination-button @(Model.SelectedOptions.ContainsKey(Guid.Parse(question.Id)) ? "answered" : "")" data-question-index="@Model.Questions.ToList().IndexOf(question)">@Html.Raw(Model.Questions.ToList().IndexOf(question) + 1)</button>
+        </div>
+
+        <div class="question">
+            <h2>@question.Name</h2>
+            <p>Решение: </p>
+            <p>@question.Solution</p>
+        </div>
+    }
+    <div class="text-center">
+        <a href="/Home/Index" class="btn btn-primary">Към начало</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <!-- Additional scripts -->
 }

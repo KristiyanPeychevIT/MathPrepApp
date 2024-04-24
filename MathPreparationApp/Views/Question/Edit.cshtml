@@ -2,7 +2,7 @@
 @model QuestionEditFormModel
 
 @{
-    ViewBag.Title = "Edit Question";
+    ViewBag.Title = "Промени въпрос";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -13,37 +13,37 @@
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="Name"></label>
-                <textarea asp-for="Name" rows="4" class="form-control" placeholder="Name..."></textarea>
+                <textarea asp-for="Name" rows="4" class="form-control" placeholder="Условие..."></textarea>
                 <span asp-validation-for="Name" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Option1"></label>
-                <input asp-for="Option1" class="form-control" placeholder="Option1...">
+                <input asp-for="Option1" class="form-control" placeholder="Възможен отговор 1...">
                 <span asp-validation-for="Option1" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Option2"></label>
-                <input asp-for="Option2" class="form-control" placeholder="Option2...">
+                <input asp-for="Option2" class="form-control" placeholder="Възможен отговор 2...">
                 <span asp-validation-for="Option2" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Option3"></label>
-                <input asp-for="Option3" class="form-control" placeholder="Option3...">
+                <input asp-for="Option3" class="form-control" placeholder="Възможен отговор 3...">
                 <span asp-validation-for="Option3" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Option4"></label>
-                <input asp-for="Option4" class="form-control" placeholder="Option4...">
+                <input asp-for="Option4" class="form-control" placeholder="Възможен отговор 4...">
                 <span asp-validation-for="Option4" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CorrectOption"></label>
-                <input asp-for="CorrectOption" class="form-control" placeholder="CorrectOption...">
+                <input asp-for="CorrectOption" class="form-control" placeholder="Правилен отговор...">
                 <span asp-validation-for="CorrectOption" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Points"></label>
-                <input asp-for="Points" class="form-control" placeholder="Points...">
+                <input asp-for="Points" class="form-control" placeholder="Точки...">
                 <span asp-validation-for="Points" class="small text-danger"></span>
             </div>
             @if (Model.ImageBytes != null)
@@ -52,11 +52,11 @@
                     <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageBytes)" style="width: 100%; height: auto;" alt="Question Image"/>
                 </div>
                 <div class="form-check">
-                    <label asp-for="RemoveImage" class="form-check-label">Remove Question Image</label>
+                    <label asp-for="RemoveImage" class="form-check-label">Премахни чертеж</label>
                     <input asp-for="RemoveImage" class="form-check-input" type="checkbox">
                 </div>
                 <div class="form-group">
-                    <label for="imageFile">Change Question Image:</label>
+                    <label for="imageFile">Промени чертеж:</label>
                     <br />
                     <input type="file" class="form-control-file" id="imageFile" name="imageFile">
                 </div>
@@ -64,14 +64,14 @@
             else
             {
                 <div class="form-group">
-                    <label for="imageFile">Add Question Image:</label>
+                    <label for="imageFile">Добави чертеж:</label>
                     <br />
                     <input type="file" class="form-control-file" id="imageFile" name="imageFile">
                 </div>
             }
             <div class="form-group">
                 <label asp-for="Solution"></label>
-                <textarea asp-for="Solution" rows="4" class="form-control" placeholder="Explanation..."></textarea>
+                <textarea asp-for="Solution" rows="4" class="form-control" placeholder="Обяснение..."></textarea>
                 <span asp-validation-for="Solution" class="small text-danger"></span>
             </div>
             <div class="form-group">
@@ -87,12 +87,12 @@
             <div class="form-group">
                 <label asp-for="TopicId"></label>
                 <select asp-for="TopicId" class="form-control" id="topicsDropdown">
-                    <option value="">-- Select Topic --</option>
+                    <option value="">Избери подраздел</option>
                 </select>
                 <span asp-validation-for="TopicId" class="text-danger"></span>
             </div>
             <div class="text-center">
-                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+                <input class="btn btn-primary mt-3" type="submit" value="Запази" />
             </div>
         </form>
     </div>

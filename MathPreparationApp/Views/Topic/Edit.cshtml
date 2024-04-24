@@ -1,7 +1,7 @@
 ﻿@model TopicFormModel
 
 @{
-    ViewBag.Title = "Edit Topic";
+    ViewBag.Title = "Промени подраздел";
 }
 
 
@@ -12,7 +12,7 @@
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form asp-action="Edit">
             <div class="mb-3">
-                <label asp-for="Name" class="form-label">Topic Name</label>
+                <label asp-for="Name" class="form-label">Име на подраздел</label>
                 <input asp-for="Name" class="form-control" aria-required="true" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
@@ -34,7 +34,7 @@
                 <span asp-validation-for="SubjectId" class="small textdanger"></span>
             </div>
             <div class="mb-3">
-                <input class="btn btn-primary" type="submit" value="Edit" />
+                <input class="btn btn-primary" type="submit" value="Промени" />
             </div>
         </form>
     </div>

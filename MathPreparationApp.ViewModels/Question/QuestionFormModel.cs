@@ -17,22 +17,27 @@
 
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
+        [Display(Name = "Условие")]
         public string Name { get; set; } = null!;
 
         [Required]
         [StringLength(OptionMaxLength)]
+        [Display(Name = "Възможен отговор 1")]
         public string Option1 { get; set; } = null!;
 
         [Required]
         [StringLength(OptionMaxLength)]
+        [Display(Name = "Възможен отговор 2")]
         public string Option2 { get; set; } = null!;
 
         [Required]
         [StringLength(OptionMaxLength)]
+        [Display(Name = "Възможен отговор 3")]
         public string Option3 { get; set; } = null!;
 
         [Required]
         [StringLength(OptionMaxLength)]
+        [Display(Name = "Възможен отговор 4")]
         public string Option4 { get; set; } = null!;
 
         [Required]
@@ -42,6 +47,7 @@
 
         [Required]
         [Range(typeof(int), PointsMinValue, PointsMaxValue)]
+        [Display(Name = "Точки")]
         public int Points { get; set; }
 
         [ImageMaxSize]

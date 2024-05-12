@@ -251,5 +251,25 @@
 
             return neverAnsweredCorrectlyQuestionsCount;
         }
+
+        public Task<bool> WasTheQuestionAnsweredCorrectly(Guid questionId, string userId)
+        {
+            return this.dbContext
+                .UsersAnsweredQuestions
+                .Where(q => q.UserId.ToString() == userId)
+                .Where(q => q.QuestionId == questionId)
+                .AnyAsync(q => q.AnsweredCorrectly);
+        }
+
+        public async Task UpdateAnsweredCorrectlyColumn(Guid questionId, string userId)
+        {
+            UserAnsweredQuestion record = await this.dbContext
+                .UsersAnsweredQuestions
+                .FirstAsync(q => q.UserId.ToString() == userId && q.QuestionId == questionId);
+
+            record.AnsweredCorrectly = true;
+
+            await this.dbContext.SaveChangesAsync();
+        }
     }
 }

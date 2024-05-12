@@ -171,15 +171,28 @@ namespace MathPreparationApp.Services.Data
                 // Add the question ID and the correctness of the answer to the result dictionary
                 answerResults.Add(question.Id, isCorrect);
 
-                UserAnsweredQuestion userAnsweredQuestion = new UserAnsweredQuestion
-                {
-                    UserId = Guid.Parse(userId),
-                    QuestionId = question.Id,
-                    AnsweredCorrectly = isCorrect
-                };
+                bool questionHasBeenAnsweredByTheCurrentUser = await HasTheQuestionBeenAnsweredByTheCurrentUser(question.Id, userId);
 
-                await this.dbContext.UsersAnsweredQuestions.AddAsync(userAnsweredQuestion);
-                await this.dbContext.SaveChangesAsync();
+                if (questionHasBeenAnsweredByTheCurrentUser)
+                {
+                    bool wasTheQuestionAnsweredCorrectly = await this.questionService.WasTheQuestionAnsweredCorrectly(question.Id, userId);
+                    if (!wasTheQuestionAnsweredCorrectly && isCorrect)
+                    {
+                        await this.questionService.UpdateAnsweredCorrectlyColumn(question.Id, userId);
+                    }
+                }
+                else
+                {
+                    //UserAnsweredQuestion userAnsweredQuestion = new UserAnsweredQuestion
+                    //{
+                    //    UserId = Guid.Parse(userId),
+                    //    QuestionId = question.Id,
+                    //    AnsweredCorrectly = isCorrect
+                    //};
+
+                    //await this.dbContext.UsersAnsweredQuestions.AddAsync(userAnsweredQuestion);
+                    //await this.dbContext.SaveChangesAsync();
+                }
             }
 
             int totalQuestions = answerResults.Count;
@@ -201,6 +214,13 @@ namespace MathPreparationApp.Services.Data
                 list[n] = value;
             }
             return list.AsQueryable();
+        }
+
+        public Task<bool> HasTheQuestionBeenAnsweredByTheCurrentUser(Guid questionId, string userId)
+        {
+            return this.dbContext
+                .UsersAnsweredQuestions
+                .AnyAsync(q => q.UserId.ToString() == userId && q.QuestionId == questionId);
         }
     }
 }

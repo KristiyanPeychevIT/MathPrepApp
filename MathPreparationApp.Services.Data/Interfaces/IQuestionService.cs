@@ -24,5 +24,8 @@ namespace MathPreparationApp.Services.Data.Interfaces
         Task<int> GetQuestionCountByTopicIdAsync(int topicId);
         Task<int> GetNotAnsweredBeforeQuestionCountAsync(int subjectId, int topicId, string userId);
         Task<int> GetNeverAnsweredCorrectlyQuestionCountAsync(int subjectId, int topicId, string userId);
+
+        Task<bool> WasTheQuestionAnsweredCorrectly(Guid questionId, string userId);
+        Task UpdateAnsweredCorrectlyColumn(Guid questionId, string userId);
     }
 }

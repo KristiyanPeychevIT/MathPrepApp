@@ -13,5 +13,7 @@
         Task<IEnumerable<QuestionTestViewModel>> GetQuestionsByIdsAsync(Guid[] questionIds, Dictionary<Guid, int> originalOrder);
 
         Task<int> CheckAndSubmitAnswersAsync(Dictionary<Guid, int> selections, string userId);
+
+        Task<bool> HasTheQuestionBeenAnsweredByTheCurrentUser(Guid questionId, string userId);
     }
 }

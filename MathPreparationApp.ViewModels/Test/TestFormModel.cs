@@ -17,11 +17,13 @@
         }
 
         [Display(Name = "Раздел")]
+        [Required(ErrorMessage = "Моля, изберете раздел от възможните опции.")]
         public int SubjectId { get; set; }
 
         [Display(Name = "Подраздел")]
         public int? TopicId { get; set; }
 
+        [Range(1, int.MaxValue, ErrorMessage = "Минималният брой въпроси е 1.")]
         public int NumberOfQuestions { get; set; }
 
         public CategoryOfQuestions CategoryOfQuestion { get; set; }

@@ -1,5 +1,10 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using MathPreparationApp.Data.Models;
+@using MathPreparationApp.Web.Infrastructure.Extensions
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using MathPreparationApp.Web.ViewModels.Question.Enums
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @model TestFormModel
 
 @{
@@ -22,7 +27,7 @@
             </div>
             <div class="col-md-6">
                 <select asp-for="TopicId" class="input-control" id="topicsDropdown" disabled>
-                    <option value="">Избери подраздел</option>
+                    <option value="0">Избери подраздел</option>
                 </select>
                 <span asp-validation-for="TopicId" class="text-danger"></span>
             </div>
@@ -43,9 +48,13 @@
             <div class="col-md-6">
             <label asp-for="NumberOfQuestions" class="input-control">Брой въпроси:</label>
             </div>
-            <div class="col-md-6">
-                <input asp-for="NumberOfQuestions" class="input-control" type="number" min="1">
+            <div class="col-md-5">
+                <input asp-for="NumberOfQuestions" class="input-control" id="numberOfQuestionsInput" value="" min="1" placeholder="Enter the number of questions to answer">
             </div>
+            <div class="col-md-1">
+                <span id="maxQuestionsSpan"></span>
+            </div>
+
         </div>
         @*<input type="hidden" asp-for="ShowAnswers" />
         <div class="form-input">
@@ -70,7 +79,7 @@
             </div>
         </div>
         <div class="form-input">
-            <button type="submit" class="btn btn-success">Започни тест</button>
+            <button type="submit" class="btn btn-success" id="submitButton">Започни тест</button>
         </div>
     </div>
 </form>
@@ -84,6 +93,7 @@
             var subjectId = this.value;
             var topicsDropdown = document.getElementById("topicsDropdown");
 
+            
             // Make AJAX request to fetch topics
             fetch(`../../../Question/OnGetTopics?subjectId=${subjectId}`)
                 .then(response => response.json())
@@ -91,7 +101,12 @@
                     // Clear existing options
                     topicsDropdown.innerHTML = "";
 
-                    // Populate topics dropdown
+                    topicsDropdown.innerHTML = "<option value='0'>Избери подраздел</option>";
+
+                    // Add "All" option
+                    topicsDropdown.innerHTML += "<option value='0'>Всички</option>";
+
+                    // Populate topics dropdown with topics by the subject
                     topics.forEach(topic => {
                         var option = document.createElement("option");
                         option.text = topic.name;
@@ -101,8 +116,18 @@
 
                     // Enable topics dropdown
                     topicsDropdown.disabled = false;
+                    topicsDropdown.style.cursor = "pointer";
                 });
+            
         });
+
+        document.getElementById("topicsDropdown").addEventListener("change", function () {
+            // Set cursor style to not-allowed when the dropdown is disabled
+            this.style.cursor = this.disabled ? "not-allowed" : "pointer";
+        });
+
+        var initialTopicsDropdown = document.getElementById("topicsDropdown");
+        initialTopicsDropdown.style.cursor = initialTopicsDropdown.disabled ? "not-allowed" : "pointer";
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -137,6 +162,122 @@
 
                 // Add "selected" class to clicked button
                 button.classList.add("selected");
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const numberOfQuestionsInput = document.getElementById("numberOfQuestionsInput");
+            const maxQuestionsSpan = document.getElementById("maxQuestionsSpan");
+            const submitButton = document.getElementById("submitButton");
+            const placeholderText = numberOfQuestionsInput.getAttribute("placeholder");
+
+            // Function to update the maximum number of questions span
+            async function updateMaxQuestionsSpan() {
+                // Get the selected subject and topic
+                const subjectId = document.getElementById("subjectsDropdown").value;
+                const topicId = document.getElementById("topicsDropdown").value;
+
+                // Get the category of question
+                const categoryOfQuestion = document.querySelector("select[name='CategoryOfQuestion']").value;
+
+                // Calculate the maximum number of questions based on the category of question
+                let maxQuestions;
+
+                // Perform AJAX requests to get the question counts
+                const subjectQuestionCount = await getQuestionCountBySubjectId(subjectId);
+                const topicQuestionCount = await getQuestionCountByTopicId(topicId);
+
+                console.log(topicQuestionCount);
+
+                if (topicQuestionCount > 0) {
+                    maxQuestions = topicQuestionCount;
+                }
+
+                else if (topicQuestionCount == 0) {
+                    if (topicId == 0) {
+                        maxQuestions = subjectQuestionCount;
+                    }
+                    else{
+                        maxQuestions = 0;
+                    }
+                } 
+
+                switch (categoryOfQuestion) {
+                    case "0": // All
+                        break;
+                    case "1": // Not Answered Before
+                        maxQuestions = await getNotAnsweredBeforeQuestionCount(subjectId, topicId);
+                        break;
+                    case "2": // Never Answered Correctly
+                        maxQuestions = await getNeverAnsweredCorrectlyQuestionCount(subjectId, topicId);
+                        break;
+                }
+
+                // Update the maximum number of questions span
+                maxQuestionsSpan.textContent = `/${maxQuestions}`;
+            }
+
+            // Call the function initially
+            updateMaxQuestionsSpan();
+
+            function handleSubmit(event) {
+                const maxQuestions = parseInt(maxQuestionsSpan.textContent.slice(1)); // Extract the maxQuestions value from the span
+                const numberOfQuestions = parseInt(numberOfQuestionsInput.value); // Get the value entered in the NumberOfQuestions input field
+
+                // Check if the entered number of questions exceeds the maximum
+                if (numberOfQuestions > maxQuestions) {
+                    // Prevent the default form submission action
+                    event.preventDefault();
+                    alert("Броя въведени въпроси надвишава този на наличните въпроси по зададените критерии!");
+                }
+            }
+            // Add event listener for form submission
+            submitButton.addEventListener("click", handleSubmit);
+
+            // Add event listeners to update the span whenever the user interacts with the inputs
+            numberOfQuestionsInput.addEventListener("input", updateMaxQuestionsSpan);
+            document.getElementById("subjectsDropdown").addEventListener("change", updateMaxQuestionsSpan);
+            document.getElementById("topicsDropdown").addEventListener("change", updateMaxQuestionsSpan);
+            document.querySelector("select[name='CategoryOfQuestion']").addEventListener("change", updateMaxQuestionsSpan);
+
+            // Add event listeners to handle placeholder text
+            numberOfQuestionsInput.addEventListener("focus", function () {
+                this.setAttribute("placeholder", "");
+            });
+
+            numberOfQuestionsInput.addEventListener("blur", function () {
+                if (this.value === "") {
+                    this.setAttribute("placeholder", placeholderText);
+                }
+            });
+
+            // Function to fetch question count by subject id
+            async function getQuestionCountBySubjectId(subjectId) {
+                const response = await fetch(`../../../Question/OnGetQuestionCountBySubjectId?subjectId=${subjectId}`);
+                const subjectQuestionCount = await response.json();
+                return subjectQuestionCount;
+            }
+
+            // Function to fetch question count by topic id
+            async function getQuestionCountByTopicId(topicId) {
+                const response = await fetch(`../../../Question/OnGetQuestionCountByTopicId?topicId=${topicId}`);
+                const topicQuestionCount = await response.json();
+                return topicQuestionCount;
+            }
+
+            // Function to fetch count of questions not answered before
+            async function getNotAnsweredBeforeQuestionCount(subjectId, topicId) {
+                const response = await fetch(`../../../Question/OnGetNotAnsweredBeforeQuestionCount?subjectId=${subjectId}&topicId=${topicId}`);
+                const notAnsweredBeforeQuestionCount = await response.json();
+                return notAnsweredBeforeQuestionCount;
+            }
+
+            // Function to fetch count of questions never answered correctly
+            async function getNeverAnsweredCorrectlyQuestionCount(subjectId, topicId) {
+                const response = await fetch(`../../../Question/OnGetNeverAnsweredCorrectlyQuestionCount?subjectId=${subjectId}&topicId=${topicId}`);
+                const neverAnsweredCorrectlyQuestionCount = await response.json();
+                return neverAnsweredCorrectlyQuestionCount;
             }
         });
     </script>

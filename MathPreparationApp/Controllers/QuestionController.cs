@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using MathPreparationApp.Data.Models;
+using MathPreparationApp.Web.Infrastructure.Extensions;
 
 namespace MathPreparationApp.Web.Controllers
 {
@@ -212,6 +213,68 @@ namespace MathPreparationApp.Web.Controllers
             catch (Exception)
             {
                 throw new Exception( "Topics with the provided subjectId cannot be retrieved!");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OnGetQuestionCountBySubjectId(int subjectId)
+        {
+            try
+            {
+                int result = await this.questionService.GetQuestionCountBySubjectIdAsync(subjectId);
+
+                return Json(result);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Questions count with the provided subjectId cannot be retrieved!");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OnGetQuestionCountByTopicId(int topicId)
+        {
+            try
+            {
+                int result = await this.questionService.GetQuestionCountByTopicIdAsync(topicId);
+
+                return Json(result);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Questions count with the provided topicId cannot be retrieved!");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OnGetNotAnsweredBeforeQuestionCount(int subjectId, int topicId)
+        {
+            try
+            {
+                string currentUserId = this.User.GetId()!;
+                int result = await this.questionService.GetNotAnsweredBeforeQuestionCountAsync(subjectId, topicId, currentUserId);
+
+                return Json(result);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Not answered before questions count with the provided userId cannot be retrieved!");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OnGetNeverAnsweredCorrectlyQuestionCount(int subjectId, int topicId)
+        {
+            try
+            {
+                string currentUserId = this.User.GetId()!;
+                int result = await this.questionService.GetNeverAnsweredCorrectlyQuestionCountAsync(subjectId, topicId, currentUserId);
+
+                return Json(result);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Never answered correctly questions count with the provided userId cannot be retrieved!");
             }
         }
     }

@@ -19,5 +19,10 @@ namespace MathPreparationApp.Services.Data.Interfaces
 
         Task<IQueryable<Question>> GetNotAnsweredBeforeQuestionsAsync(string userId, IQueryable<Question> questionsQuery);
         Task<IQueryable<Question>> GetNeverAnsweredCorrectlyQuestionsAsync(string userId, IQueryable<Question> questionsQuery);
+
+        Task<int> GetQuestionCountBySubjectIdAsync(int subjectId);
+        Task<int> GetQuestionCountByTopicIdAsync(int topicId);
+        Task<int> GetNotAnsweredBeforeQuestionCountAsync(int subjectId, int topicId, string userId);
+        Task<int> GetNeverAnsweredCorrectlyQuestionCountAsync(int subjectId, int topicId, string userId);
     }
 }

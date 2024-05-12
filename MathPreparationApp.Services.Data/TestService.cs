@@ -40,7 +40,8 @@ namespace MathPreparationApp.Services.Data
             questionsQuery = questionsQuery
                 .Where(q => q.SubjectId == queryModel.SubjectId);
 
-            if (queryModel.TopicId != null)
+            // Check if the selected topic is "All" (or any value that represents selecting all topics)
+            if (queryModel.TopicId != 0)
             {
                 questionsQuery = questionsQuery
                     .Where(q => q.TopicId == queryModel.TopicId);

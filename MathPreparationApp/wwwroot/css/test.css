@@ -17,6 +17,10 @@
     margin-top: -4px;
 }
 
+select.input-control {
+    cursor: pointer;
+}
+
 nav.input-control {
     display: flex;
 }

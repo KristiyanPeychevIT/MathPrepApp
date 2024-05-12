@@ -39,3 +39,19 @@ li {
     border-radius: 5px;
     margin-top: 30px;
 }
+
+h2.text-center {
+    cursor: default;
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+input.form-control-file {
+    cursor: pointer;
+}
+
+.form-control option {
+    cursor: pointer;
+}

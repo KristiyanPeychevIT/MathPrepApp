@@ -105,7 +105,16 @@
 
                     // Enable topics dropdown
                     topicsDropdown.disabled = false;
+                    topicsDropdown.style.cursor = "pointer";
                 });
         });
+
+        document.getElementById("topicsDropdown").addEventListener("change", function () {
+            // Set cursor style to not-allowed when the dropdown is disabled
+            this.style.cursor = this.disabled ? "not-allowed" : "pointer";
+        });
+
+        var initialTopicsDropdown = document.getElementById("topicsDropdown");
+        initialTopicsDropdown.style.cursor = initialTopicsDropdown.disabled ? "not-allowed" : "pointer";
     </script>
 }

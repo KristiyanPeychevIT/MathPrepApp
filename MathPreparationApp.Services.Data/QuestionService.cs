@@ -166,5 +166,90 @@
 
             return neverAnsweredCorrectlyQuestions.AsQueryable();
         }
+
+        public async Task<int> GetQuestionCountBySubjectIdAsync(int subjectId)
+        {
+             return await this.dbContext
+                .Questions
+                .Where(q => q.SubjectId == subjectId)
+                .CountAsync();
+        }
+
+        public async Task<int> GetQuestionCountByTopicIdAsync(int topicId)
+        {
+            return await this.dbContext
+                .Questions
+                .Where(q => q.TopicId == topicId)
+                .CountAsync();
+        }
+
+        public async Task<int> GetNotAnsweredBeforeQuestionCountAsync(int subjectId, int topicId, string userId)
+        {
+            IEnumerable<Guid>? questionsAnsweredIds = await this.dbContext
+                .UsersAnsweredQuestions
+                .Where(u => u.UserId.ToString() == userId)
+                .Select(q => q.QuestionId)
+                .ToListAsync();
+
+            int notAnsweredBeforeQuestionsCount;
+            if (topicId == 0)
+            {
+                notAnsweredBeforeQuestionsCount = await this.dbContext
+                    .Questions
+                    .Where(q => q.IsActive)
+                    .Where(q => q.SubjectId == subjectId)
+                    .Where(q => questionsAnsweredIds.Contains(q.Id) == false)
+                    .CountAsync();
+            }
+            else
+            {
+                notAnsweredBeforeQuestionsCount = await this.dbContext
+                    .Questions
+                    .Where(q => q.IsActive)
+                    .Where(q => q.SubjectId == subjectId)
+                    .Where(q => q.TopicId == topicId)
+                    .Where(q => questionsAnsweredIds.Contains(q.Id) == false)
+                    .CountAsync();
+            }
+            return notAnsweredBeforeQuestionsCount;
+        }
+
+        public async Task<int> GetNeverAnsweredCorrectlyQuestionCountAsync(int subjectId, int topicId, string userId)
+        {
+            IEnumerable<Guid>? questionsAnsweredIncorrectlyIds = await this.dbContext
+                .UsersAnsweredQuestions
+                .Where(u => u.UserId.ToString() == userId)
+                .Where(q => q.AnsweredCorrectly == false)
+                .Select(q => q.QuestionId)
+                .ToListAsync();
+
+            int questionsAnsweredIncorrectlyCount;
+            if (topicId == 0)
+            {
+                questionsAnsweredIncorrectlyCount = await this.dbContext
+                    .Questions
+                    .Where(q => q.IsActive)
+                    .Where(q => q.SubjectId == subjectId)
+                    .Where(q => questionsAnsweredIncorrectlyIds.Contains(q.Id))
+                    .CountAsync();
+            }
+            else
+            {
+                questionsAnsweredIncorrectlyCount = await this.dbContext
+                    .Questions
+                    .Where(q => q.IsActive)
+                    .Where(q => q.SubjectId == subjectId)
+                    .Where(q => q.TopicId == topicId)
+                    .Where(q => questionsAnsweredIncorrectlyIds.Contains(q.Id))
+                    .CountAsync();
+            }
+
+            int notAnsweredBeforeQuestionsCount = await GetNotAnsweredBeforeQuestionCountAsync(subjectId, topicId, userId);
+
+            int neverAnsweredCorrectlyQuestionsCount =
+                questionsAnsweredIncorrectlyCount + notAnsweredBeforeQuestionsCount;
+
+            return neverAnsweredCorrectlyQuestionsCount;
+        }
     }
 }

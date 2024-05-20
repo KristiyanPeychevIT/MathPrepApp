@@ -5,32 +5,171 @@
     Layout = "_TestLayout";
 }
 
-<div class="test-container">
-    <h2 class="text-center">@(Model.Score >= 75 ? "Поздравления, ти премина теста с: " + Model.Score : "Съжаляваме, резултатът ти е: " + Model.Score)</h2>
-
-    @foreach (var question in Model.Questions)
-    {
-        <div class="question-number">
-            <h1>Въпрос @(Model.Questions.ToList().IndexOf(question) + 1)/@Model.Questions.Count()</h1>
+<div class="card">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="feedback-container d-flex justify-content-center align-items-center">
+                @if (Model.Score >= 75)
+                {
+                    <h2 class="">Поздравления, ти успя!</h2>
+                }
+                else
+                {
+                    <h2 class="">За съжаление, не се справи.</h2>
+                }
+            </div>
         </div>
-
-        <div class="pagination">
+        <div class="col-md-4">
+            <div class="feedback-container d-flex justify-content-center align-items-center vl">
+                <h2 class="">Резултатът ти е: @Model.Score%</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feedback-container d-flex justify-content-center align-items-center vl">
+                <button class="btn btn-primary" onclick="window.location.href = '@Url.Action("Create", "Test")'">Създай нов тест</button>
+            </div>
+        </div>
+    </div>
+    <div class="question-container" style="margin-left: 100px; margin-right: 100px">
+        <div class="pagination" style="margin-top: 30px">
             <!-- Pagination buttons dynamically generated -->
-            <button type="button" class="pagination-button @(Model.SelectedOptions.ContainsKey(Guid.Parse(question.Id)) ? "answered" : "")" data-question-index="@Model.Questions.ToList().IndexOf(question)">@Html.Raw(Model.Questions.ToList().IndexOf(question) + 1)</button>
-        </div>
+            @for (int i = 0; i < Model.Questions.Count(); i++)
+            {
+                var buttonClass = "pagination-button";
+                var questionId = Model.Questions.ToArray()[i].Id;
+                if (Model.SelectedOptions.ContainsKey(Guid.Parse(questionId)))
+                {
+                    var selectedOptionIndex = Model.SelectedOptions[Guid.Parse(questionId)];
 
-        <div class="question">
-            <h2>@question.Name</h2>
-            <p>Решение: </p>
-            <p>@question.Solution</p>
+                    string selectedOption;
+
+                    switch (selectedOptionIndex)
+                    {
+                        case 0:
+                            selectedOption = Model.Questions.ToArray()[i].Option1;
+                            break;
+                        case 1:
+                            selectedOption = Model.Questions.ToArray()[i].Option2;
+                            break;
+                        case 2:
+                            selectedOption = Model.Questions.ToArray()[i].Option3;
+                            break;
+                        case 3:
+                            selectedOption = Model.Questions.ToArray()[i].Option4;
+                            break;
+                        default:
+                            selectedOption = "Invalid Option";
+                            break;
+                    }
+                    buttonClass += selectedOption == Model.Questions.ToArray()[i].CorrectOption ? " correct" : " incorrect";
+                }
+                <button type="button" class="@buttonClass" data-question-index="@i">@Html.Raw(i + 1)</button>
+            }
         </div>
-    }
-    <div class="text-center">
-        <a href="/Home/Index" class="btn btn-primary">Към начало</a>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="question-number">
+                        <p style="font-size: 35px; margin-bottom: 0;">Въпрос 1/@Model.Questions.Count()</p>
+                    </div>
+                </div>
+                <hr class="solid">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="question">
+                    <p style="font-size: 20px;">@Model.Questions.First().Name</p>
+                    <hr class="solid">
+                    <div class="options fw-bold d-flex align-items-center" style="margin-top: 20px; margin-bottom: 50px">
+                        <div class="custom-checkbox mr-3">
+                            <input type="checkbox" checked disabled>
+                            <label for="correct-option" class="checkbox-label"></label>
+                        </div>
+                        <div class="correct-option" style="font-size: 20px">@Model.Questions.First().CorrectOption</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="explanation-title">
+                    <p>Обяснение</p>
+                </div>
+                <hr class="solid">
+                <div class="explanation-text" style="margin-top: 20px;">
+                    <p>@Html.Raw(Model.Questions.First().Solution)</p>
+                </div>
+            </div>
+        </div>
+        <div class="navigation-arrows mt-3">
+            <button type="button" id="prev-question">&larr; Предишен</button>
+            <button type="button" id="next-question">Следващ &rarr;</button>
+        </div>
     </div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <!-- Additional scripts -->
+    <script>
+        const feedbackModel = @Json.Serialize(Model);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const paginationButtons = document.querySelectorAll(".pagination-button");
+            const questionContainer = document.querySelector(".question");
+            const questionNameElement = questionContainer.querySelector("p");
+            const optionsListElement = questionContainer.querySelector(".correct-option");
+            const questionNumberElement = document.querySelector(".question-number p");
+            const explanationTextElement = document.querySelector(".explanation-text p");
+            const explanationTitleElement = document.querySelector(".explanation-title");
+            const explanationHrElement = document.querySelector(".explanation-hr");
+            const previousQuestionButton = document.querySelector("#prev-question");
+            const nextQuestionButton = document.querySelector("#next-question");
+
+            let btnIndex = 0; // Start with the first question
+
+            function updateQuestion(index) {
+                let questionData = feedbackModel.questions[index];
+
+                // Update question name
+                questionNameElement.textContent = questionData.name;
+
+                // Update correct option
+                optionsListElement.innerHTML = '';
+                let answer = document.createElement("div");
+
+                answer.append(" " + questionData.correctOption);
+                optionsListElement.appendChild(answer);
+
+                // Update question number
+                questionNumberElement.textContent = "Въпрос " + (index + 1) + "/" + feedbackModel.questions.length;
+
+                // Update explanation text
+                explanationTextElement.innerHTML = questionData.solution;
+
+                toggleSelectedClass(index);
+            }
+
+            paginationButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    btnIndex = parseInt(button.getAttribute('data-question-index'));
+                    updateQuestion(btnIndex);
+                });
+            });
+
+            previousQuestionButton.addEventListener("click", function () {
+                if (btnIndex > 0) {
+                    btnIndex--;
+                    updateQuestion(btnIndex);
+                }
+            });
+
+            nextQuestionButton.addEventListener("click", function () {
+                if (btnIndex < feedbackModel.questions.length - 1) {
+                    btnIndex++;
+                    updateQuestion(btnIndex);
+                }
+            });
+
+            // Initialize with the first question on page load
+            updateQuestion(0);
+        });
+    </script>
 }

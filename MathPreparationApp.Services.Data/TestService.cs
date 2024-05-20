@@ -175,11 +175,11 @@ namespace MathPreparationApp.Services.Data
 
                 if (questionHasBeenAnsweredByTheCurrentUser)
                 {
-                    bool wasTheQuestionAnsweredCorrectly = await this.questionService.WasTheQuestionAnsweredCorrectly(question.Id, userId);
-                    if (!wasTheQuestionAnsweredCorrectly && isCorrect)
-                    {
-                        await this.questionService.UpdateAnsweredCorrectlyColumn(question.Id, userId);
-                    }
+                    //bool wasTheQuestionAnsweredCorrectly = await this.questionService.WasTheQuestionAnsweredCorrectly(question.Id, userId);
+                    //if (!wasTheQuestionAnsweredCorrectly && isCorrect)
+                    //{
+                    //    await this.questionService.UpdateAnsweredCorrectlyColumn(question.Id, userId);
+                    //}
                 }
                 else
                 {
@@ -201,6 +201,13 @@ namespace MathPreparationApp.Services.Data
             return score;
         }
 
+        public Task<bool> HasTheQuestionBeenAnsweredByTheCurrentUser(Guid questionId, string userId)
+        {
+            return this.dbContext
+                .UsersAnsweredQuestions
+                .AnyAsync(q => q.UserId.ToString() == userId && q.QuestionId == questionId);
+        }
+
         private IQueryable<T> Shuffle<T>(List<T> list)
         {
             // Fisher-Yates shuffle algorithm
@@ -214,13 +221,6 @@ namespace MathPreparationApp.Services.Data
                 list[n] = value;
             }
             return list.AsQueryable();
-        }
-
-        public Task<bool> HasTheQuestionBeenAnsweredByTheCurrentUser(Guid questionId, string userId)
-        {
-            return this.dbContext
-                .UsersAnsweredQuestions
-                .AnyAsync(q => q.UserId.ToString() == userId && q.QuestionId == questionId);
         }
     }
 }

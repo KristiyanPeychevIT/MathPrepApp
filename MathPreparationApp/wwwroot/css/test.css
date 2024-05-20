@@ -1,12 +1,12 @@
 ﻿.card {
-    width: 100%; /* Adjust maximum width as needed */
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     flex-direction: column;
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Ensure no overflow */
+    overflow: hidden;
 }
 
 .input-control {
@@ -55,12 +55,12 @@ nav.input-control {
 
     .form-input .btn-success {
         width: 200px;
-        height: 40px; /* Adjust height as needed */
+        height: 40px;
         border: none;
         border-radius: 5px;
         color: #fff;
         cursor: pointer;
-        margin-left: auto
+        margin-left: auto;
     }
 
 .options div {
@@ -71,18 +71,110 @@ nav.input-control {
     cursor: default;
 }
 
+.question-number p {
+    font-weight: 100;
+    color: #db0934;
+}
+
 .question h2 {
     cursor: default;
 }
 
 .pagination button {
+    height: 40px;
+    width: 50px;
+    color: black;
     background-color: white;
+    border-color: white;
+    margin-right: 4px;
 }
 
 .pagination-button.selected {
-    background-color: lightgray;
+    color: white;
+    background-color: #a7a7a7;
+    border-color: #a7a7a7;
+}
+
+.pagination-button.correct {
+    color: white;
+    background-color: #70bd65;
+    border-color: #70bd65;
+}
+
+.pagination-button.incorrect {
+    color: white;
+    background-color: #db0934;
+    border-color: #db0934;
 }
 
 .pagination-button.answered {
-    background-color: lightblue;
+    color: white;
+    background-color: #40adb1;
+    border-color: #40adb1;
+}
+
+.score-section-container {
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    width: 100%; /* Ensure full width */
+}
+
+.score-section {
+    display: flex;
+    align-items: center; /* Align items vertically */
+}
+
+.vl {
+    border-left: 2px solid gray;
+    height: 50px;
+    margin: 0 20px; /* Adjust margin to create equal spacing */
+}
+
+hr.solid {
+    border-top: 3px solid black;
+    margin-top: 0; /* Remove top margin for tight alignment */
+}
+
+.explanation-title {
+    font-size: 1.1355rem;
+    font-weight: 600;
+    color: #db0934;
+    margin-bottom: 0;
+}
+
+.explanation-hr {
+    border-top: 3px solid black;
+    margin-top: 0;
+}
+
+.explanation-text {
+    font-size: 20px;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    appearance: none; /* Remove default appearance */
+    background-color: #70bd65; /* Set background color */
+    border: 2px solid none; /* Add border */
+    border-radius: 5px; /* Round corners */
+}
+    .custom-checkbox input[type="checkbox"]::before {
+        content: "\2713"; /* Unicode checkmark symbol */
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 20px;
+        font-size: 16px;
+        color: #fff; /* Checkmark color */
+        background-color: #70bd65; /* Checkmark background color when checked */
+        border-radius: 3px; /* Round checkmark corners */
+        margin-right: 5px; /* Spacing between checkmark and checkbox */
+        visibility: visible; /* Ensure checkmark is visible */
+    }
+
+.custom-checkbox .correct-option {
+    font-size: 20px;
 }

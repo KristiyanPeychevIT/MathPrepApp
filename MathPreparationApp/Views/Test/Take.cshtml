@@ -6,32 +6,38 @@
     Layout = "_TestLayout";
 }
 <form id="testSubmissionForm" action="@Url.Action("Submit", "Test")" method="post">
-    <div class="test-container">
-        <div class="question-number">
-            <h1>Въпрос 1/@Model.QuestionCount</h1>
-        </div>
+    <div class="card">
+        <div class="test-container">
+            <div class="pagination">
+                <!-- Pagination buttons dynamically generated -->
+                @for (int i = 0; i < Model.QuestionCount; i++)
+                {
+                    <button type="button" class="pagination-button" data-question-index="@i">@Html.Raw(i + 1)</button>
+                }
+            </div>
 
-        <div class="pagination">
-            <!-- Pagination buttons dynamically generated -->
-            @for (int i = 0; i < Model.QuestionCount; i++)
-            {
-                <button type="button" class="pagination-button" data-question-index="@i">@Html.Raw(i + 1)</button>
-            }
-        </div>
+            <div class="question-number">
+                <h1>Въпрос 1/@Model.QuestionCount</h1>
+            </div>
 
-        <div class="question">
-            <h2>@Model.Questions.ToArray()[0].Name</h2>
-            <ul class="options">
-                <li><div>@Model.Questions.ToArray()[0].Option1</div></li>
-                <li><div>@Model.Questions.ToArray()[0].Option2</div></li>
-                <li><div>@Model.Questions.ToArray()[0].Option3</div></li>
-                <li><div>@Model.Questions.ToArray()[0].Option4</div></li>
-            </ul>
-        </div>
+            <div class="question">
+                <h2>@Model.Questions.ToArray()[0].Name</h2>
+                <ul class="options">
+                    <li>
+                        <div>@Model.Questions.ToArray()[0].Option1</div></li>
+                    <li>
+                        <div>@Model.Questions.ToArray()[0].Option2</div></li>
+                    <li>
+                        <div>@Model.Questions.ToArray()[0].Option3</div></li>
+                    <li>
+                        <div>@Model.Questions.ToArray()[0].Option4</div></li>
+                </ul>
+            </div>
 
-        <div class="navigation-arrows">
-            <button type="button" id="prev-question">&larr; Предишен</button>
-            <button type="button" id="next-question">Следващ &rarr;</button>
+            <div class="navigation-arrows">
+                <button type="button" id="prev-question">&larr; Предишен</button>
+                <button type="button" id="next-question">Следващ &rarr;</button>
+            </div>
         </div>
     </div>
 </form>

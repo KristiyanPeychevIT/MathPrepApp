@@ -63,6 +63,11 @@ nav.input-control {
         margin-left: auto;
     }
 
+.options {
+    padding-left: 0;
+    margin-top: 30px;
+}
+
 .options div {
     cursor: pointer;
 }
@@ -113,21 +118,17 @@ nav.input-control {
     border-color: #40adb1;
 }
 
-.score-section-container {
-    display: flex;
-    justify-content: flex-end; /* Align items to the right */
-    width: 100%; /* Ensure full width */
-}
-
-.score-section {
-    display: flex;
-    align-items: center; /* Align items vertically */
-}
-
 .vl {
     border-left: 2px solid gray;
-    height: 50px;
-    margin: 0 20px; /* Adjust margin to create equal spacing */
+    height: 35px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.question-image-container img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid black;
 }
 
 hr.solid {
@@ -178,3 +179,30 @@ hr.solid {
 .custom-checkbox .correct-option {
     font-size: 20px;
 }
+
+.option-container {
+    display: flex;
+    align-items: center; /* Align items vertically */
+}
+
+.option-text {
+    font-weight: normal; /* Reset font weight */
+}
+
+.custom-option {
+    width: 40px; /* Set width and height for the circle */
+    height: 40px;
+    border-radius: 50%; /* Make it a circle */
+    border-bottom: 1px solid #ccc;
+    background-color: #4a4a4a; /* Circle background color */
+    color: white; /* Circle text color */
+    display: flex;
+    justify-content: center; /* Center the letter horizontally */
+    align-items: center; /* Center the letter vertically */
+    margin-right: 10px; /* Add spacing between circle and text */
+    margin-bottom: 10px;
+}
+
+    .custom-option.selected {
+        background-color: #40adb1; /* Change circle background color when selected */
+    }

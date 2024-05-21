@@ -7,57 +7,77 @@
 }
 <form id="testSubmissionForm" action="@Url.Action("Submit", "Test")" method="post">
     <div class="card">
-        <div class="test-container">
+        <div class="test-container" style="margin-left: 100px; margin-right: 100px">
+            <div class="question-number">
+                <h1>Въпрос 1/@Model.QuestionCount</h1>
+            </div>
+            <hr class="solid">
             <div class="pagination">
-                <!-- Pagination buttons dynamically generated -->
                 @for (int i = 0; i < Model.QuestionCount; i++)
                 {
                     <button type="button" class="pagination-button" data-question-index="@i">@Html.Raw(i + 1)</button>
                 }
             </div>
 
-            <div class="question-number">
-                <h1>Въпрос 1/@Model.QuestionCount</h1>
-            </div>
+            <div class="row mt-3">
+                <div class="col-md-5 d-flex flex-column">
+                    <div class="question">
+                        <p style="font-size: 25px;">@Model.Questions.ToArray()[0].Name</p>
+                        <hr class="solid">
+                        <ul class="options">
+                            <li>
+                                <div>@Model.Questions.ToArray()[0].Option1</div>
+                            </li>
+                            <li>
+                                <div>@Model.Questions.ToArray()[0].Option2</div>
+                            </li>
+                            <li>
+                                <div>@Model.Questions.ToArray()[0].Option3</div>
+                            </li>
+                            <li>
+                                <div>@Model.Questions.ToArray()[0].Option4</div>
+                            </li>
+                        </ul>
+                    </div>
 
-            <div class="question">
-                <h2>@Model.Questions.ToArray()[0].Name</h2>
-                <ul class="options">
-                    <li>
-                        <div>@Model.Questions.ToArray()[0].Option1</div></li>
-                    <li>
-                        <div>@Model.Questions.ToArray()[0].Option2</div></li>
-                    <li>
-                        <div>@Model.Questions.ToArray()[0].Option3</div></li>
-                    <li>
-                        <div>@Model.Questions.ToArray()[0].Option4</div></li>
-                </ul>
-            </div>
+                    <div class="navigation-arrows mt-3" style="margin-top: 0;">
+                        <button type="button" id="prev-question">&larr; Предишен</button>
+                        <button type="button" id="next-question">Следващ &rarr;</button>
+                    </div>
+                </div>
 
-            <div class="navigation-arrows">
-                <button type="button" id="prev-question">&larr; Предишен</button>
-                <button type="button" id="next-question">Следващ &rarr;</button>
+                <div class="col-md-1"></div> <!-- Added for spacing -->
+
+                <div class="col-md-5 d-flex align-items-start">
+                    <div class="question-image-container">
+                        @if (Model.Questions.ToArray()[0].ImageBytes != null)
+                        {
+                            <img class="question-image img-fluid" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Questions.ToArray()[0].ImageBytes)" alt="Question Image">
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </form>
+
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
     <script>
         const testModel = @Json.Serialize(Model);
 
         document.addEventListener("DOMContentLoaded", function () {
             const paginationButtons = document.querySelectorAll(".pagination-button");
             const questionContainer = document.querySelector(".question");
-            const questionNameElement = questionContainer.querySelector("h2");
+            const questionNameElement = questionContainer.querySelector("p");
             const optionsListElement = questionContainer.querySelector(".options");
             const questionNumberElement = document.querySelector(".question-number h1");
             const previousQuestionButton = document.querySelector("#prev-question");
             const nextQuestionButton = document.querySelector("#next-question");
+            const questionImageContainer = document.querySelector(".question-image-container");
 
-            let btnIndex = 0; // Start with the first question
-            let selectedOptions = new Array(testModel.questions.length).fill(null); // Array to store selected options for each question
-
+            let btnIndex = 0;
+            let selectedOptions = new Array(testModel.questions.length).fill(null);
 
             function toggleSelectedClass(index) {
                 paginationButtons.forEach(button => {
@@ -68,7 +88,7 @@
             }
 
             function updateQuestion(index) {
-                let questionData = testModel.questions[index]; 
+                let questionData = testModel.questions[index];
 
                 // Update question name
                 questionNameElement.textContent = questionData.name;
@@ -77,39 +97,58 @@
                 optionsListElement.innerHTML = '';
                 for (let i = 0; i < 4; i++) {
                     let listItem = document.createElement("li");
-                    let answer = document.createElement("div");
+                    let answerContainer = document.createElement("div");
+                    let circle = document.createElement("div");
+                    let optionText = document.createElement("div");
 
-                    answer.append(" " + String.fromCharCode(65 + i) + " " + questionData["option" + (i + 1)]);
+                    circle.textContent = String.fromCharCode(65 + i);
+                    circle.classList.add("custom-option"); // Add custom-option class to circle
+
+                    optionText.textContent = questionData["option" + (i + 1)];
+                    optionText.classList.add("option-text"); // Add option-text class to option text
+
+                    answerContainer.appendChild(circle);
+                    answerContainer.appendChild(optionText);
+                    answerContainer.classList.add("option-container"); // Add option-container class to answer container
 
                     let isSelected = selectedOptions[index] === i;
 
-                    answer.addEventListener("click", function () {
-                        // Remove selected attribute from all options
-                        optionsListElement.querySelectorAll("div").forEach(option => {
-                            option.removeAttribute("selected");
-                            option.style.fontWeight = "normal"; // Remove bold styling
+                    answerContainer.addEventListener("click", function () {
+                        optionsListElement.querySelectorAll(".option-text").forEach(option => {
+                            option.style.fontWeight = "normal";
+                        });
+                        optionsListElement.querySelectorAll(".custom-option").forEach(option => {
+                            option.classList.remove("selected");
                         });
 
-                        // Add selected attribute and bold styling to the clicked option
-                        answer.setAttribute("selected", "selected");
-                        answer.style.fontWeight = "bold";
+                        optionText.style.fontWeight = "bold"; // Bold the option text
+                        circle.classList.add("selected"); // Add selected class to circle
 
                         selectedOptions[index] = i;
-
                         paginationButtons[index].classList.add("answered");
                     });
 
                     if (isSelected) {
-                        answer.setAttribute("selected", "selected");
-                        answer.style.fontWeight = "bold";
+                        optionText.style.fontWeight = "bold"; // Bold the option text
+                        circle.classList.add("selected"); // Add selected class to circle
                     }
 
-                    listItem.appendChild(answer);
+                    listItem.appendChild(answerContainer);
                     optionsListElement.appendChild(listItem);
                 }
 
                 // Update question number
                 questionNumberElement.textContent = "Въпрос " + (index + 1) + "/" + testModel.questions.length;
+
+                // Update question image
+                questionImageContainer.innerHTML = ''; // Clear existing image
+                if (questionData.imageBytes) {
+                    const img = document.createElement("img");
+                    img.className = "question-image img-fluid";
+                    img.alt = "Question Image";
+                    img.src = "data:image/jpeg;base64," + questionData.imageBytes;
+                    questionImageContainer.appendChild(img);
+                }
 
                 toggleSelectedClass(index);
             }
@@ -136,41 +175,35 @@
                     let unansweredQuestions = selectedOptions.some(option => option === null);
 
                     if (unansweredQuestions) {
-                        // Display an alert indicating that all questions must be answered
                         alert("Please answer all questions before submitting the test.");
                     } else {
-
-                        // Show submission confirmation popup when on the last question
                         let confirmSubmission = confirm("Do you want to submit the test?");
 
                         if (confirmSubmission) {
                             const form = document.getElementById('testSubmissionForm');
-                            form.innerHTML = '';  // Clear any existing inputs
+                            form.innerHTML = '';
 
                             let selections = {};
                             testModel.questions.forEach((question, index) => {
                                 const questionId = question.id;
-                                const selectedOptionIndex = selectedOptions[index];  // Get the selected option index
+                                const selectedOptionIndex = selectedOptions[index];
                                 selections[questionId] = selectedOptionIndex;
                             });
 
-                            // Create a single hidden input for the entire selections object
                             const input = document.createElement('input');
                             input.type = 'hidden';
                             input.name = 'selections';
-                            input.value = JSON.stringify(selections);  // Convert the object to a JSON string
+                            input.value = JSON.stringify(selections);
                             form.appendChild(input);
 
-                            // Submit the form
                             form.submit();
                         } else {
-                            // Navigate back to the last question
                             updateQuestion(btnIndex);
                         }
                     }
                 }
             });
-            // Initialize with the first question on page load
+
             updateQuestion(0);
         });
     </script>

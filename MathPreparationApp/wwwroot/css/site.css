@@ -14,11 +14,25 @@ html {
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 60px;
     font-family: "Times New Roman", Times, serif;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+header, footer {
+    height: 60px;
+    background-color: #f2f2f2; /* Fixed height for header and footer */
+}
+
 footer {
+    margin-top: auto;
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -26,6 +40,9 @@ footer {
     line-height: 60px;
 }
 
+.container-fluid.mt-2 {
+    background-color: #7fb5e8;
+}
 
 li {
     list-style-type: none;

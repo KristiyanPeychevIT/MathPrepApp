@@ -12,11 +12,11 @@
     Layout = "_TestLayout";
 }
 
-<form method="post">
-    <div class="card">
-        <div class="row">
+<form method="post" class="d-flex flex-column h-100 mt-2">
+    <div class="card flex-grow-1 overflow-auto">
+        <div class="row mt-2">
             <div class="col-md-6">
-                <select asp-for="SubjectId" class="input-control" id="subjectsDropdown">
+                <select asp-for="SubjectId" class="form-select" id="subjectsDropdown">
                     <option value="">Избери раздел</option>
                     @foreach (var subject in Model.Subjects)
                     {
@@ -26,49 +26,39 @@
                 <span asp-validation-for="SubjectId" class="text-danger"></span>
             </div>
             <div class="col-md-6">
-                <select asp-for="TopicId" class="input-control" id="topicsDropdown" disabled>
+                <select asp-for="TopicId" class="form-select" id="topicsDropdown" disabled>
                     <option value="0">Избери подраздел</option>
                 </select>
                 <span asp-validation-for="TopicId" class="text-danger"></span>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-2">
             <div class="col-md-6">
-            <label class="input-control">Каква категория въпроси да бъдат включени?</label>
+                <label asp-for="CategoryOfQuestion" class="form-label">Каква категория въпроси да бъдат включени?</label>
             </div>
             <div class="col-md-6">
-                <select asp-for="CategoryOfQuestion" class="input-control">
+                <select asp-for="CategoryOfQuestion" class="form-select">
                     <option value="0">Всички</option>
                     <option value="1">Неотговаряни преди</option>
                     <option value="2">Никога отговаряни правилно</option>
                 </select>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-2">
             <div class="col-md-6">
-            <label asp-for="NumberOfQuestions" class="input-control">Брой въпроси:</label>
+                <label asp-for="NumberOfQuestions" class="form-label">Брой въпроси:</label>
             </div>
             <div class="col-md-5">
-                <input asp-for="NumberOfQuestions" class="input-control" id="numberOfQuestionsInput" value="" min="1" placeholder="Въведете броя на въпросите, на които да отговорите">
+                <input asp-for="NumberOfQuestions" class="form-control" id="numberOfQuestionsInput" value="" min="1" placeholder="Въведете броя на въпросите, на които да отговорите">
             </div>
-            <div class="col-md-1">
+            <div class="col-md-1" style="margin-top: 10px;">
                 <span id="maxQuestionsSpan"></span>
             </div>
-
         </div>
-        @*<input type="hidden" asp-for="ShowAnswers" />
-        <div class="form-input">
-            <label>Show answers:</label>
-            <nav class="input-control" id="navigation1">    
-                <a href="#" data-handler="AfterTest" class="button-nav" data-value="0">After Test</a>
-                <a href="#" data-handler="AfterChoice" class="button-nav" data-value="1">After Choice</a>
-                <a href="#" data-handler="BeforeChoice" class="button-nav" data-value="2">Before Choice</a>
-            </nav>
-        </div>*@
-        <div class="row">
-            <input type="hidden" asp-for="SortQuestions"/>
+        <div class="row mt-2">
+            <input type="hidden" asp-for="SortQuestions" />
             <div class="col-md-6">
-            <label class="input-control">Подреди въпросите:</label>
+                <label class="form-label">Подреди въпросите:</label>
             </div>
             <div class="col-md-6">
                 <nav class="input-control" id="navigation2">
@@ -78,7 +68,7 @@
                 </nav>
             </div>
         </div>
-        <div class="form-input">
+        <div class="form-input d-flex justify-content-end mt-3">
             <button type="submit" class="btn btn-success" id="submitButton">Започни тест</button>
         </div>
     </div>

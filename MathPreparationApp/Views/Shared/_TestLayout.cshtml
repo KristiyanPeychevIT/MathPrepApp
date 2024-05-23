@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="height: 60px;">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MathPreparationApp</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,37 +22,14 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
                         </li>
-                        @if (this.User.Identity?.IsAuthenticated ?? false) // isInRole(Admin) in the future
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="Create">Създай тест</a>
+                        </li>
+                        @if (this.User.Identity?.IsAuthenticated ?? false) //IsInRoleAdmin
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Question" asp-action="Add">Добави въпрос</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Question" asp-action="Edit">Промени въпрос</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Question" asp-action="Delete">Изтрий въпрос</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Subject" asp-action="Add">Добави раздел</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Subject" asp-action="Edit">Промени раздел</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Subject" asp-action="Delete">Изтрий раздел</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Topic" asp-action="Add">Добави подраздел</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Topic" asp-action="Edit">Промени подраздел</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Topic" asp-action="Delete">Изтрий подраздел</a>
-                            </li>
+                            //
                         }
                     </ul>
                     <partial name="_LoginPartial" />
@@ -60,19 +37,19 @@
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
+    <div class="container-fluid mt-2">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted text-center">
+    <footer class="border-top footer text-muted text-center" style="height: 60px;">
         <div class="container-fluid">
-            &copy; MathPreparationApp @ReleaseYear
-            @if (DateTime.UtcNow.Year != ReleaseYear)
-            {
-                @Html.Raw($" - {DateTime.UtcNow.Year}")
-            }
+        &copy; MathPreparationApp @ReleaseYear
+        @if (DateTime.UtcNow.Year != ReleaseYear)
+        {
+            @Html.Raw($" - {DateTime.UtcNow.Year}")
+        }
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

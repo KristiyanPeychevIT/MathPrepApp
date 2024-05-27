@@ -271,5 +271,12 @@
 
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Question>> AllQuestionsAsync()
+        {
+            return await this.dbContext
+                .Questions
+                .ToArrayAsync();
+        }
     }
 }

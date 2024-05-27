@@ -1,0 +1,24 @@
+﻿@model IEnumerable<SubjectViewModel>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark">
+        <tr class="align-middle">
+            <th>Раздел</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var subject in Model)
+        {
+            <tr>
+                <td>@subject.Name</td>
+                <td>
+                        <a href="@Url.Action("Edit", "Subject", new { id = subject.Id })" class="btn btn-sm btn-warning">Промени</a>
+                        <a href="@Url.Action("Delete", "Subject", new { id = subject.Id })" class="btn btn-sm btn-danger">Изтрий</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

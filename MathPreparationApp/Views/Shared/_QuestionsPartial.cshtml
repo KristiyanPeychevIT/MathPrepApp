@@ -1,0 +1,46 @@
+﻿@using MathPreparationApp.Data.Models
+@model IEnumerable<Question>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark">
+        <tr class="align-middle">
+            <th>Условие</th>
+            <th>Възм. отговор 1</th>
+            <th>Възм. отговор 2</th>
+            <th>Възм. отговор 3</th>
+            <th>Възм. отговор 4</th>
+            <th>Правилен отговор</th>
+            <th>Точки</th>
+            <th>Чертеж</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var question in Model)
+        {
+            <tr>
+                <td>@question.Name</td>
+                <td>@question.Option1</td>
+                <td>@question.Option2</td>
+                <td>@question.Option3</td>
+                <td>@question.Option4</td>
+                <td>@question.CorrectOption</td>
+                <td>@question.Points</td>
+                @if (question.ImageBytes != null)
+                {
+                    <td class="text-center">Да</td>
+                }
+                else
+                {
+                    <td class="text-center">Не</td>
+                }
+                <td>
+                    <a href="@Url.Action("Edit", "Question", new { id = question.Id })" class="btn btn-action btn-warning">Промени</a>
+                    <a href="@Url.Action("Delete", "Question", new { id = question.Id })" class="btn btn-action btn-danger">Изтрий</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

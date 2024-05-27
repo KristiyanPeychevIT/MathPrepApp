@@ -1,0 +1,73 @@
+﻿@using MathPreparationApp.Data.Models
+@model IEnumerable<Question>
+
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="text-center my-4">
+    <h2>Админско меню</h2>
+</div>
+<div class="row mb-3 d-flex justify-content-between">
+    <div class="col-auto">
+        <select id="manageDropdown" class="form-select">
+            <option value="questions">Управление на въпроси</option>
+            <option value="subjects">Управление на раздели</option>
+            <option value="topics">Управление на подраздели</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <a id="addButton" class="btn btn-primary">Добави въпрос</a>
+    </div>
+</div>
+
+<div id="manageTable">
+    @await Html.PartialAsync("_QuestionsPartial", Model)
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#manageDropdown').change(function () {
+                var selectedOption = $(this).val();
+                var url = "";
+                var buttonText = "";
+
+                switch (selectedOption) {
+                    case "questions":
+                        url = "@Url.Action("GetQuestions", "Admin")";
+                        buttonText = "Добави въпрос";
+                        break;
+                    case "subjects":
+                        url = "@Url.Action("GetSubjects", "Admin")";
+                        buttonText = "Добави раздел";
+                        break;
+                    case "topics":
+                        url = "@Url.Action("GetTopics", "Admin")";
+                        buttonText = "Добави подраздел";
+                        break;
+                }
+
+                $.get(url, function (data) {
+                    $('#manageTable').html(data);
+                });
+
+                $('#addButton').text(buttonText);
+                $('#addButton').off('click').on('click', function () {
+                    switch (selectedOption) {
+                        case "questions":
+                            window.location.href = '@Url.Action("Add", "Question")';
+                            break;
+                        case "subjects":
+                            window.location.href = '@Url.Action("Add", "Subject")';
+                            break;
+                        case "topics":
+                            window.location.href = '@Url.Action("Add", "Topic")';
+                            break;
+                    }
+                });
+            });
+        });
+    </script>
+}

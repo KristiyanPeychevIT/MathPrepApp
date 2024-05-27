@@ -1,0 +1,26 @@
+﻿@model IEnumerable<TopicViewModel>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark">
+        <tr class="align-middle">
+            <th>Подраздел</th>
+            <th>Раздел</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var topic in Model)
+        {
+            <tr>
+                <td>@topic.Name</td>
+                <td>@topic.SubjectName</td>
+                <td>
+                        <a href="@Url.Action("Edit", "Topic", new { id = topic.Id })" class="btn btn-sm btn-warning">Промени</a>
+                        <a href="@Url.Action("Delete", "Topic", new { id = topic.Id })" class="btn btn-sm btn-danger">Изтрий</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

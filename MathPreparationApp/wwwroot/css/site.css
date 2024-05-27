@@ -17,6 +17,7 @@ body {
     display: flex;
     flex-direction: column;
     margin-bottom: 60px;
+    min-height: 100vh;
     font-family: "Times New Roman", Times, serif;
 }
 
@@ -33,15 +34,18 @@ header, footer {
 
 footer {
     margin-top: auto;
-    position: absolute;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
 }
 
+.container {
+    flex-grow: 1;
+}
 .container-fluid.mt-2 {
     background-color: #7fb5e8;
+    flex-grow: 1;
 }
 
 li {
@@ -72,4 +76,9 @@ input.form-control-file {
 
 .form-control option {
     cursor: pointer;
+}
+
+.btn-action {
+    width: 100%;
+    margin-bottom: 5px;
 }

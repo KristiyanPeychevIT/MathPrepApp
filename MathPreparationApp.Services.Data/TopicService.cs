@@ -8,14 +8,17 @@
     using System.Collections.Generic;
     using MathPreparationApp.Data.Models;
     using MathPreparationApp.Web.ViewModels.Subject;
+    using Topic = MathPreparationApp.Data.Models.Topic;
 
     public class TopicService : ITopicService
     {
         private readonly MathPreparationAppDbContext dbContext;
+        private readonly ISubjectService subjectService;
 
-        public TopicService(MathPreparationAppDbContext dbContext)
+        public TopicService(MathPreparationAppDbContext dbContext, ISubjectService subjectService)
         {
             this.dbContext = dbContext;
+            this.subjectService = subjectService;
         }
 
         public async Task<bool> TopicExistsByIdAsync(int id)
@@ -83,6 +86,26 @@
                     Id = t.Id,
                     Name = t.Name,
                 }).ToArrayAsync();
+
+            return allTopics;
+        }
+
+        public async Task<IEnumerable<TopicViewModel>> AllTopicsAsync()
+        {
+            var topics = await this.dbContext.Topics.ToListAsync();
+
+            var allTopics = new List<TopicViewModel>();
+
+            foreach (var topic in topics)
+            {
+                var subjectName = await this.subjectService.GetSubjectNameByIdAsync(topic.SubjectId);
+                allTopics.Add(new TopicViewModel()
+                {
+                    Id = topic.Id,
+                    Name = topic.Name,
+                    SubjectName = subjectName
+                });
+            }
 
             return allTopics;
         }

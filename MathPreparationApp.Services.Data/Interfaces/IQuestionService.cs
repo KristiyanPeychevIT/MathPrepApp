@@ -1,7 +1,6 @@
-﻿using MathPreparationApp.Data.Models;
-
-namespace MathPreparationApp.Services.Data.Interfaces
+﻿namespace MathPreparationApp.Services.Data.Interfaces
 {
+    using MathPreparationApp.Data.Models;
     using MathPreparationApp.Web.ViewModels.Topic;
     using Web.ViewModels.Question;
 
@@ -27,5 +26,6 @@ namespace MathPreparationApp.Services.Data.Interfaces
 
         Task<bool> WasTheQuestionAnsweredCorrectly(Guid questionId, string userId);
         Task UpdateAnsweredCorrectlyColumn(Guid questionId, string userId);
+        Task<IEnumerable<Question>> AllQuestionsAsync();
     }
 }

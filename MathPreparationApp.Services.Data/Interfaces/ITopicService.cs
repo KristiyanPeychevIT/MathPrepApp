@@ -14,5 +14,6 @@
         Task EditAsync(int id, TopicFormModel formModel);
         Task DeleteAsync(TopicViewModel viewModel);
         Task<IEnumerable<TopicViewModel>> AllTopicsBySubjectIdAsync(int subjectId);
+        Task<IEnumerable<TopicViewModel>> AllTopicsAsync();
     }
 }

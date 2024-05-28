@@ -6,7 +6,7 @@
 }
 
 <div class="card">
-    <div class="row">
+    <div class="row submit" style="text-align: center">
         <div class="col-md-4">
             <div class="feedback-container d-flex justify-content-center align-items-center">
                 @if (Model.Score >= 75)
@@ -20,17 +20,17 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="feedback-container d-flex justify-content-center align-items-center vl">
+            <div class="feedback-container d-flex justify-content-center align-items-center">
                 <h2 class="">Резултатът ти е: @Model.Score%</h2>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="feedback-container d-flex justify-content-center align-items-center vl">
+            <div class="feedback-container d-flex justify-content-center align-items-center">
                 <button class="btn btn-primary" onclick="window.location.href = '@Url.Action("Create", "Test")'">Създай нов тест</button>
             </div>
         </div>
     </div>
-    <div class="question-container" style="margin-left: 100px; margin-right: 100px">
+    <div class="question-container">
         <div class="pagination" style="margin-top: 30px">
             <!-- Pagination buttons dynamically generated -->
             @for (int i = 0; i < Model.Questions.Count(); i++)
@@ -88,6 +88,12 @@
                         </div>
                         <div class="correct-option" style="font-size: 20px">@Model.Questions.First().CorrectOption</div>
                     </div>
+                    <div class="question-submit-image-container" style="margin-bottom: 40px;">
+                        @if (Model.Questions.ToArray()[0].ImageBytes != null)
+                        {
+                            <img class="question-image img-fluid" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Questions.ToArray()[0].ImageBytes)" alt="Question Image">
+                        }
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -122,6 +128,7 @@
             const explanationHrElement = document.querySelector(".explanation-hr");
             const previousQuestionButton = document.querySelector("#prev-question");
             const nextQuestionButton = document.querySelector("#next-question");
+            const questionImageContainer = document.querySelector(".question-submit-image-container");
 
             let btnIndex = 0; // Start with the first question
 
@@ -143,6 +150,16 @@
 
                 // Update explanation text
                 explanationTextElement.innerHTML = questionData.solution;
+
+                // Update question image
+                questionImageContainer.innerHTML = ''; // Clear existing image
+                if (questionData.imageBytes) {
+                    const img = document.createElement("img");
+                    img.className = "question-image img-fluid";
+                    img.alt = "Question Image";
+                    img.src = "data:image/jpeg;base64," + questionData.imageBytes;
+                    questionImageContainer.appendChild(img);
+                }
 
                 toggleSelectedClass(index);
             }

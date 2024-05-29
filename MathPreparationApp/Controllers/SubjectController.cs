@@ -54,7 +54,7 @@
                 throw new Exception("Unexpected error occured while adding a subject!");
             }
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Admin");
         }
 
         [HttpGet]
@@ -92,7 +92,7 @@
                 throw new Exception("Unexpected error occured while editing a subject!");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Admin");
         }
 
         [HttpGet]
@@ -126,7 +126,7 @@
                 throw new Exception("Unexpected error occured while deleting a subject!");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Admin");
         }
     }
 }

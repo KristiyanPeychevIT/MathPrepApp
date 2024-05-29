@@ -65,7 +65,7 @@ namespace MathPreparationApp.Web.Controllers
                 return this.View(model);
             }
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Admin");
         }
 
         [HttpGet]
@@ -106,7 +106,7 @@ namespace MathPreparationApp.Web.Controllers
                 throw new Exception("Unexpected error occured while editing a topic!");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Admin");
         }
 
         [HttpGet]
@@ -128,7 +128,7 @@ namespace MathPreparationApp.Web.Controllers
             catch (Exception)
             {
                 this.ModelState.AddModelError(string.Empty, "Unexpected error occured while retrieving subject name for current topic!");
-                return this.RedirectToAction("Index", "Home");
+                return this.RedirectToAction("Index", "Admin");
             }
 
             TopicViewModel model = new TopicViewModel()
@@ -153,7 +153,7 @@ namespace MathPreparationApp.Web.Controllers
                 throw new Exception("Unexpected error occured while deleting a topic!");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Admin");
         }
     }
 }

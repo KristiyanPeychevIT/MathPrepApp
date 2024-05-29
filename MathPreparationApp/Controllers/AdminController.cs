@@ -1,9 +1,11 @@
 ﻿namespace MathPreparationApp.Web.Controllers
 {
-    using MathPreparationApp.Services.Data;
-    using MathPreparationApp.Services.Data.Interfaces;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using MathPreparationApp.Services.Data.Interfaces;
+
+    [Authorize(Roles = "Administrator")]
     public class AdminController : Controller
     {
         private readonly IQuestionService questionService;

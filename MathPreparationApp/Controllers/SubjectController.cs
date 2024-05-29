@@ -6,6 +6,7 @@
     using Data.Models;
     using MathPreparationApp.Services.Data.Interfaces;
     using ViewModels.Subject;
+    using static Common.GeneralApplicationConstants;
 
     [Authorize]
     public class SubjectController : Controller
@@ -18,12 +19,14 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Add()
         {
             return this.View();
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Add(SubjectFormModel model)
         {
             bool isIdTaken =
@@ -58,6 +61,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Edit(int id)
         {
             Subject subject = await this.subjectService.GetSubjectByIdAsync(id);
@@ -76,6 +80,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Edit(int id, SubjectFormModel model)
         {
             if (!ModelState.IsValid)
@@ -96,6 +101,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Delete(int id)
         {
             var subject = await this.subjectService.GetSubjectByIdAsync(id);
@@ -115,6 +121,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Delete(SubjectViewModel model)
         {
             try

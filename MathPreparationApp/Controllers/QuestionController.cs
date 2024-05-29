@@ -1,16 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-using MathPreparationApp.Data.Models;
-using MathPreparationApp.Web.Infrastructure.Extensions;
-
-namespace MathPreparationApp.Web.Controllers
+﻿namespace MathPreparationApp.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using MathPreparationApp.Services.Data.Interfaces;
+    using ViewModels.Topic;
     using ViewModels.Question;
-    using MathPreparationApp.Web.ViewModels.Topic;
-    using static System.Net.Mime.MediaTypeNames;
+    using Infrastructure.Extensions;
+    using static Common.GeneralApplicationConstants;
 
     [Authorize]
     public class QuestionController : Controller
@@ -27,6 +24,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Add()
         {
             QuestionFormModel formModel = new QuestionFormModel()
@@ -38,7 +36,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpPost]
-
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Add(QuestionFormModel model, [FromForm] IFormFile? imageFile)
         {
             bool subjectExists =
@@ -86,7 +84,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpGet]
-
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Edit(string id)
         {
             bool questionExists = await this.questionService.QuestionExistsByIdAsync(id);
@@ -111,7 +109,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpPost]
-
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Edit(string id, QuestionEditFormModel model, [FromForm] IFormFile? imageFile)
         {
             if (!this.ModelState.IsValid)
@@ -157,6 +155,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Delete(string id)
         {
             bool questionExists = await this.questionService.QuestionExistsByIdAsync(id);
@@ -180,6 +179,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Delete(string id, QuestionDeleteViewModel model)
         {
             bool questionExists = await this.questionService.QuestionExistsByIdAsync(id);

@@ -1,15 +1,12 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace MathPreparationApp.Web.Controllers
+﻿namespace MathPreparationApp.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using MathPreparationApp.Services.Data.Interfaces;
     using ViewModels.Topic;
-    using ViewModels.Subject;
-    using Data.Models;
     using Topic = Data.Models.Topic;
+    using static Common.GeneralApplicationConstants;
 
     [Authorize]
     public class TopicController : Controller
@@ -24,6 +21,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Add()
         {
             TopicFormModel formModel = new TopicFormModel()
@@ -35,7 +33,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpPost]
-
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Add(TopicFormModel model)
         {
             bool subjectExists = 
@@ -69,6 +67,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Edit(int id)
         {
             Topic topic = await this.topicService.GetTopicByIdAsync(id);
@@ -89,6 +88,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Edit(int id, TopicFormModel model)
         {
             if (!ModelState.IsValid)
@@ -110,6 +110,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Delete(int id)
         {
             Topic topic = await this.topicService.GetTopicByIdAsync(id);
@@ -142,6 +143,7 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRoleName)]
         public async Task<IActionResult> Delete(TopicViewModel model)
         {
             try

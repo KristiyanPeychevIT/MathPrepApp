@@ -33,8 +33,4 @@
     <ProjectReference Include="..\MathPreparationApp.Web.Infrastructure\MathPreparationApp.Web.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Identity\Pages\Account\" />
-  </ItemGroup>
-
 </Project>

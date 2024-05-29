@@ -1,0 +1,15 @@
+﻿@page
+@model MathPreparationApp.Web.Areas.Identity.Pages.Account.AccessDeniedModel
+@{
+    ViewData["Title"] = "Достъпът забранен";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h1 class="display-4 mb-5 text-danger">Достъпът е забранен!</h1>
+            <p class="lead">Нямате разрешение за достъп до тази страница.</p>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Към начало</a>
+        </div>
+    </div>
+</div>

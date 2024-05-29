@@ -25,6 +25,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 builder.Services.AddApplicationServices(typeof(IQuestionService));
 
+builder.Services.ConfigureApplicationCookie(cfg =>
+{
+    cfg.LoginPath = "/User/Login";
+});
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSession(options =>

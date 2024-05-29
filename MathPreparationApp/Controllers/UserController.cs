@@ -1,24 +1,21 @@
-﻿using MathPreparationApp.Web.ViewModels.User;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace MathPreparationApp.Web.Controllers
+﻿namespace MathPreparationApp.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    using ViewModels.User;
     using Data.Models;
 
     public class UserController : Controller
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IUserStore<ApplicationUser> userStore;
 
-        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IUserStore<ApplicationUser> userStore)
+        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
-            this.userStore = userStore;
         }
 
         [HttpGet]
@@ -58,9 +55,34 @@ namespace MathPreparationApp.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login(string? returnUrl = null)
         {
-            return View();
+            await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            LoginFormModel model = new LoginFormModel()
+            {
+                ReturnUrl = returnUrl
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var result = await this.signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
+            if (!result.Succeeded)
+            {
+                return this.View(model);
+            }
+
+            return this.Redirect(model.ReturnUrl ?? "/Home/Index");
         }
     }
 }

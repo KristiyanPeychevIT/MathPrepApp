@@ -6,7 +6,7 @@
 }
 
 <div class="text-center my-4">
-    <h2>Админско меню</h2>
+    <h2>Администраторско меню</h2>
 </div>
 <div class="row mb-3 d-flex justify-content-between">
     <div class="col-auto">
@@ -29,23 +29,26 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
-            $('#manageDropdown').change(function () {
-                var selectedOption = $(this).val();
+            function updateButtonAndContent(selectedOption) {
                 var url = "";
                 var buttonText = "";
+                var addUrl = "";
 
                 switch (selectedOption) {
                     case "questions":
                         url = "@Url.Action("GetQuestions", "Admin")";
                         buttonText = "Добави въпрос";
+                        addUrl = "@Url.Action("Add", "Question")";
                         break;
                     case "subjects":
                         url = "@Url.Action("GetSubjects", "Admin")";
                         buttonText = "Добави раздел";
+                        addUrl = "@Url.Action("Add", "Subject")";
                         break;
                     case "topics":
                         url = "@Url.Action("GetTopics", "Admin")";
                         buttonText = "Добави подраздел";
+                        addUrl = "@Url.Action("Add", "Topic")";
                         break;
                 }
 
@@ -54,20 +57,16 @@
                 });
 
                 $('#addButton').text(buttonText);
-                $('#addButton').off('click').on('click', function () {
-                    switch (selectedOption) {
-                        case "questions":
-                            window.location.href = '@Url.Action("Add", "Question")';
-                            break;
-                        case "subjects":
-                            window.location.href = '@Url.Action("Add", "Subject")';
-                            break;
-                        case "topics":
-                            window.location.href = '@Url.Action("Add", "Topic")';
-                            break;
-                    }
-                });
+                $('#addButton').attr('href', addUrl);
+            }
+
+            $('#manageDropdown').change(function () {
+                var selectedOption = $(this).val();
+                updateButtonAndContent(selectedOption);
             });
+
+            // Initial load
+            updateButtonAndContent($('#manageDropdown').val());
         });
     </script>
 }

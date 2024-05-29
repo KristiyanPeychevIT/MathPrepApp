@@ -10,13 +10,7 @@
 <hr />
 <form asp-action="Delete">
     <div class="row">
-        @if (Model.ImageBytes != null)
-        {
-            <div class="col-md-4">
-                <img class="card-img-top" style="height: 100%; width: 100%" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageBytes)" alt="Question Image" />
-            </div>
-        }
-        <div class="col-md-8">
+        <div class="col-md-8 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" disabled="disabled" />
@@ -49,7 +43,7 @@
                 }
                 <input asp-for="@topicName" class="form-control" disabled="disabled" />
             </div>
-            <div class="form-group mt-2">
+            <div class="form-group mt-2 text-center">
                 <input type="submit" value="Delete" class="btn btn-danger"/>
             </div>
         </div>

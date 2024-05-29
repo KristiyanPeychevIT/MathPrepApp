@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 using MathPreparationApp.Data;
 using MathPreparationApp.Data.Models;
 using MathPreparationApp.Web.Infrastructure.Extensions;
 using static MathPreparationApp.Common.EntityValidationConstants.User;
+using static MathPreparationApp.Common.GeneralApplicationConstants;
 using MathPreparationApp.Services.Data.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = PasswordMinLength;
 })
+.AddRoles<IdentityRole<Guid>>()
 .AddEntityFrameworkStores<MathPreparationAppDbContext>();
 
 builder.Services.AddApplicationServices(typeof(IQuestionService));
@@ -61,6 +64,8 @@ app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.SeedAdministrator(AdminEmail);
 
 app.MapControllerRoute(
     name: "default",

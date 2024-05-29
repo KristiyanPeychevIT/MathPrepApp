@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MathPreparationApp.Common\MathPreparationApp.Common.csproj" />
-    <ProjectReference Include="..\MathPreparationApp.Web.Infrastructure\MathPreparationApp.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

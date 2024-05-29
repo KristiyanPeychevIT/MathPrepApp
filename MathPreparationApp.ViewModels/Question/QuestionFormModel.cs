@@ -4,7 +4,6 @@
     using System.ComponentModel.DataAnnotations;
     using Subject;
     using Topic;
-    using static Infrastructure.Extensions.ValidationAttributeExtensions;
     using static MathPreparationApp.Common.EntityValidationConstants.Question;
 
     public class QuestionFormModel
@@ -50,7 +49,6 @@
         [Display(Name = "Точки")]
         public int Points { get; set; }
 
-        [ImageMaxSize]
         [Display(Name = "Чертеж")]
         public byte[]? ImageBytes { get; set; }
 

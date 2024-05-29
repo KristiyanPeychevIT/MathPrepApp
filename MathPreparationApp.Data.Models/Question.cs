@@ -2,7 +2,6 @@
 {
     using System.ComponentModel.DataAnnotations;
     using static MathPreparationApp.Common.EntityValidationConstants.Question;
-    using static Web.Infrastructure.Extensions.ValidationAttributeExtensions;
 
     public class Question
     {
@@ -43,7 +42,6 @@
         [Required]
         public int Points { get; set; }
 
-        [ImageMaxSize]
         public byte[]? ImageBytes { get; set; }
 
         [Required]

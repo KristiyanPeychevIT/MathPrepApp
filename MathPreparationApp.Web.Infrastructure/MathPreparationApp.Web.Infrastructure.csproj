@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MathPreparationApp.Common\MathPreparationApp.Common.csproj" />
+    <ProjectReference Include="..\MathPreparationApp.Services.Data.Models\MathPreparationApp.Services.Data.Models.csproj" />
   </ItemGroup>
 
 </Project>

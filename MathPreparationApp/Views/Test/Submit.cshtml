@@ -1,4 +1,5 @@
-﻿@model FeedbackViewModel
+﻿@using static MathPreparationApp.Common.GeneralApplicationConstants
+@model FeedbackViewModel
 
 @{
     ViewBag.Title = "Test Feedback";
@@ -9,7 +10,7 @@
     <div class="row submit" style="text-align: center">
         <div class="col-md-4">
             <div class="feedback-container d-flex justify-content-center align-items-center">
-                @if (Model.Score >= 75)
+                @if (Model.Score >= TestSuccessScore)
                 {
                     <h2 class="">Поздравления, ти успя!</h2>
                 }

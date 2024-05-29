@@ -175,23 +175,23 @@ namespace MathPreparationApp.Services.Data
 
                 if (questionHasBeenAnsweredByTheCurrentUser)
                 {
-                    //bool wasTheQuestionAnsweredCorrectly = await this.questionService.WasTheQuestionAnsweredCorrectly(question.Id, userId);
-                    //if (!wasTheQuestionAnsweredCorrectly && isCorrect)
-                    //{
-                    //    await this.questionService.UpdateAnsweredCorrectlyColumn(question.Id, userId);
-                    //}
+                    bool wasTheQuestionAnsweredCorrectly = await this.questionService.WasTheQuestionAnsweredCorrectly(question.Id, userId);
+                    if (!wasTheQuestionAnsweredCorrectly && isCorrect)
+                    {
+                        await this.questionService.UpdateAnsweredCorrectlyColumn(question.Id, userId);
+                    }
                 }
                 else
                 {
-                    //UserAnsweredQuestion userAnsweredQuestion = new UserAnsweredQuestion
-                    //{
-                    //    UserId = Guid.Parse(userId),
-                    //    QuestionId = question.Id,
-                    //    AnsweredCorrectly = isCorrect
-                    //};
+                    UserAnsweredQuestion userAnsweredQuestion = new UserAnsweredQuestion
+                    {
+                        UserId = Guid.Parse(userId),
+                        QuestionId = question.Id,
+                        AnsweredCorrectly = isCorrect
+                    };
 
-                    //await this.dbContext.UsersAnsweredQuestions.AddAsync(userAnsweredQuestion);
-                    //await this.dbContext.SaveChangesAsync();
+                    await this.dbContext.UsersAnsweredQuestions.AddAsync(userAnsweredQuestion);
+                    await this.dbContext.SaveChangesAsync();
                 }
             }
 

@@ -4,6 +4,7 @@ using MathPreparationApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MathPreparationApp.Data.Migrations
 {
     [DbContext(typeof(MathPreparationAppDbContext))]
-    partial class MathPreparationAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240529201849_SeededUsers")]
+    partial class SeededUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,13 +94,13 @@ namespace MathPreparationApp.Data.Migrations
                         {
                             Id = new Guid("fa76088c-c053-4a4b-a0c5-bb931c606c78"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "03930ea1-6f04-4006-9b8f-ec82d02eddc6",
+                            ConcurrencyStamp = "c9b8454a-f1fe-48a9-ba95-0f197198247a",
                             Email = "guest@users.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@USERS.COM",
                             NormalizedUserName = "GUEST@USERS.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA+H+n1hKvcxwdIGV5xQqGfOTJS+f/hcri8GZaB7efw/cgYjHaP2/5JVfpqLIb3Mxg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECIwbFZU9+KJTIYGeo/ErXSW/j1q10YHVb/Cke3Qnmg+0sz7x3BBy6Aun5SfMcdJvQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "guest@users.com"
@@ -107,13 +109,13 @@ namespace MathPreparationApp.Data.Migrations
                         {
                             Id = new Guid("bcb4f072-ecca-43c9-ab26-c060c6f364e4"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9e332e3e-767e-46d8-b452-bf0cfe4563b8",
+                            ConcurrencyStamp = "306210d5-0507-429a-8c3a-73913d482576",
                             Email = "admin@mathprepapp.bg",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MATHPREPAPP.BG",
-                            NormalizedUserName = "ADMIN@MATHPREPAPP.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE46aFrW/LelRU/A4AZKCFWyvspoE1XEzP/73sq8FW7qqHa5FqOwznCZ3A4T0R3eXw==",
+                            NormalizedUserName = "admin@mathprepapp.bg",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGkdsUBvF39LKQWr+RwvVL3RPuWcRcK3z1jDvWJQ8nyg8tUPiYoYUaYb9TlpUXXF7Q==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin@mathprepapp.bg"
@@ -199,8 +201,8 @@ namespace MathPreparationApp.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e3ceef07-f716-411c-b914-95d8f0592605"),
-                            AddedOn = new DateTime(2024, 5, 29, 23, 21, 19, 958, DateTimeKind.Local).AddTicks(5782),
+                            Id = new Guid("6a54c26f-a2ef-43ab-bc9a-56096898dc79"),
+                            AddedOn = new DateTime(2024, 5, 29, 23, 18, 49, 223, DateTimeKind.Local).AddTicks(5718),
                             CorrectOption = "-32",
                             IsActive = false,
                             Name = "Пресметнете стойността на израза: 4.(-8)",
@@ -212,12 +214,12 @@ namespace MathPreparationApp.Data.Migrations
                             Solution = "Положително число, умножено с отрицателно, е равно на отрицателното им произведение.",
                             SubjectId = 1,
                             TopicId = 2,
-                            UpdatedOn = new DateTime(2024, 5, 29, 23, 21, 19, 958, DateTimeKind.Local).AddTicks(5814)
+                            UpdatedOn = new DateTime(2024, 5, 29, 23, 18, 49, 223, DateTimeKind.Local).AddTicks(5821)
                         },
                         new
                         {
-                            Id = new Guid("95626cea-52b5-4e68-a8fb-9e2a53eba724"),
-                            AddedOn = new DateTime(2024, 5, 29, 23, 21, 19, 958, DateTimeKind.Local).AddTicks(5847),
+                            Id = new Guid("c6e461e6-b8a6-40c4-9f9c-e47f18c0264a"),
+                            AddedOn = new DateTime(2024, 5, 29, 23, 18, 49, 223, DateTimeKind.Local).AddTicks(5846),
                             CorrectOption = "5x²y³z",
                             IsActive = false,
                             Name = "Запишете в нормален вид едночлена: 5xxyy²z",
@@ -229,7 +231,7 @@ namespace MathPreparationApp.Data.Migrations
                             Solution = "x по x = x², y по у² = y³",
                             SubjectId = 2,
                             TopicId = 2,
-                            UpdatedOn = new DateTime(2024, 5, 29, 23, 21, 19, 958, DateTimeKind.Local).AddTicks(5849)
+                            UpdatedOn = new DateTime(2024, 5, 29, 23, 18, 49, 223, DateTimeKind.Local).AddTicks(5847)
                         });
                 });
 

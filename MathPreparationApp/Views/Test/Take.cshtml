@@ -175,9 +175,9 @@
                     let unansweredQuestions = selectedOptions.some(option => option === null);
 
                     if (unansweredQuestions) {
-                        alert("Please answer all questions before submitting the test.");
+                        alert("Моля, отговорете на всички въпроси преди да предадете теста!");
                     } else {
-                        let confirmSubmission = confirm("Do you want to submit the test?");
+                        let confirmSubmission = confirm("Искате ли да предадете теста?");
 
                         if (confirmSubmission) {
                             const form = document.getElementById('testSubmissionForm');

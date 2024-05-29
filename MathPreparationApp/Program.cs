@@ -18,9 +18,9 @@ builder.Services.AddDbContext<MathPreparationAppDbContext>(options =>
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {   
     options.SignIn.RequireConfirmedAccount = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = PasswordMinLength;
 })
 .AddRoles<IdentityRole<Guid>>()
